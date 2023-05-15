@@ -8,7 +8,6 @@ import { Outlet } from "react-router-dom";
 import Footer from '../../components/global/Footer'
 import Header from '../../components/global/Header'
 
-
 export default function Layout(){
     return (
         <div>
@@ -27,10 +26,8 @@ export default function Layout(){
                 {/* End of Nav Bar */}
             </div>
             {/* End of Header */}
-            
-            
-            <Outlet/>
 
+            <Outlet/>
 
             {/* Subscribe */}
             <Subscribe/>
@@ -43,6 +40,7 @@ export default function Layout(){
             {/* Footer */}
             <Footer/>
             {/* End of Footer */}
+
 
         </div>
     );

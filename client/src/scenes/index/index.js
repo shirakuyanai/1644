@@ -1,6 +1,4 @@
 import React from 'react'
-
-import Layout from '../layouts/layout'
 import Brands from '../../components/dashboard/Brands'
 import Slider from '../../components/dashboard/Slider'
 import LastestProducts from '../../components/dashboard/LastestProducts'
@@ -20,7 +18,7 @@ export default function Dashboard(){
             {/* End of Slider */}
             
             {/* Brands */}
-            <Brands/>
+            <Brands />
             {/* End of Brands */}
 
             

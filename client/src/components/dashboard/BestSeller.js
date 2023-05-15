@@ -19,7 +19,7 @@ export default function BestSeller(){
                           <div className="item">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="product-block">
-                                      <div className="product-img"><img src="../images/product_img_5.png" alt=""/></div>
+                                      <div className="product-img"><img src="../assets/images/product_img_5.png" alt=""/></div>
                                       <div className="product-content">
                                           <h5><a href="#" className="product-title">Apple iPhone 6 <strong>(32 GB, Gold)</strong></a></h5>
                                           <div className="product-meta"><a href="#" className="product-price">$1700</a>
@@ -37,7 +37,7 @@ export default function BestSeller(){
                           <div className="item">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="product-block">
-                                      <div className="product-img"><img src="../images/product_img_6.png" alt=""/></div>
+                                      <div className="product-img"><img src="../assets/images/product_img_6.png" alt=""/></div>
                                       <div className="product-content">
                                           <h5><a href="#" className="product-title">Apple iPhone 7 <strong>(256 GB, Black)</strong> </a></h5>
                                           <div className="product-meta"><a href="#" className="product-price">$1400</a>
@@ -55,7 +55,7 @@ export default function BestSeller(){
                           <div className="item">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="product-block">
-                                      <div className="product-img"><img src="../images/product_img_7.png" alt=""/></div>
+                                      <div className="product-img"><img src="../assets/images/product_img_7.png" alt=""/></div>
                                       <div className="product-content">
                                           <h5><a href="#" className="product-title">Apple iPhone 6S <strong>(32GB, Gold)</strong> </a></h5>
                                           <div className="product-meta"><a href="#" className="product-price">$1300</a>
@@ -73,7 +73,7 @@ export default function BestSeller(){
                           <div className="item">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="product-block">
-                                      <div className="product-img"><img src="../images/product_img_8.png" alt=""/></div>
+                                      <div className="product-img"><img src="../assets/images/product_img_8.png" alt=""/></div>
                                       <div className="product-content">
                                           <h5><a href="#" className="product-title">Apple iPhone X <strong>(64 GB, Grey)</strong></a></h5>
                                           <div className="product-meta"><a href="#" className="product-price">$1200</a>
