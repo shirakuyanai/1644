@@ -1,0 +1,8 @@
+
+
+GET http://localhost:5000/brands
+# Content-Type: application/json
+
+# {
+#     "name": "Huawei"
+# }

@@ -1,8 +1,13 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 const port = 5000
+const cors = require('cors')
 const mongoose = require('mongoose')
 app.use(express.json())
+app.use(cors({
+origin: 'http://localhost:5000'
+}))
+
 mongoose.connect("mongodb+srv://react:React123@react.psjcoby.mongodb.net/").then(() => console.log("All set")).catch((console.error))
 
 const Brand = require('./models/Brand')

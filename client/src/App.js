@@ -3,7 +3,6 @@ import Layout from './scenes/layouts/layout'
 import Index from './scenes/index/index'
 import Login from './scenes/login/login'
 import Register from './scenes/register/register'
-
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 
