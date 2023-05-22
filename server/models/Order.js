@@ -19,11 +19,11 @@ const OrderSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'OrderDetail',
       required: true
-  },
-  status:{
-    type: Number,
-    required: true
-  }
+    },
+    status:{
+      type: Number,
+      required: true
+    }
 })
 
 const Order = mongoose.model('Order', OrderSchema)

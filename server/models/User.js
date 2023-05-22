@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
-    name:{
+    firstname:{
+        type: String,
+        required: true
+    },
+    lastname:{
         type: String,
         required: true
     },
@@ -23,12 +27,16 @@ const UserSchema = new Schema({
         required: true // ?
     },
     address:{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Address',
         required: true
     },
     roles:{
-        type: [String],
-        default: ['ROLE_USER'],
+        type: Number,
+        default: 1,
+        // 1: customer
+        // 2: admin
+        // 3: manager
     },
 })
 

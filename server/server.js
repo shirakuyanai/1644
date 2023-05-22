@@ -5,15 +5,21 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 app.use(express.json())
 app.use(cors({
-origin: 'http://localhost:5000'
+    origin: 'http://localhost:5000'
 }))
 
-mongoose.connect("mongodb+srv://react:React123@react.psjcoby.mongodb.net/").then(() => console.log("All set")).catch((console.error))
+mongoose.connect("mongodb+srv://atn:Atn123@tbhzone.54x3cwa.mongodb.net/").then(() => console.log("All set")).catch((console.error))
 
 const Brand = require('./models/Brand')
 const Product = require('./models/Product')
+const Address = require('./models/Address')
+const OrderDetail = require('./models/OrderDetail')
 const Order = require('./models/Order')
 const User = require('./models/User')
+
+app.get('/', async(req, res) => {
+    res.json('Server is online!')
+})
 
 app.get('/brands', async(req, res) => {
     const brands = await Brand.find()
