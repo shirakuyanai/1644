@@ -7,15 +7,19 @@ const OrderDetailSchema = new Schema({
       ref: 'Order',
       required: true
   },
-  user:{
+  product:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Product',
     required: true
   },
   quantity:{
     type: Number,
     required: true
-  }
+  },
+  total:{
+    type: Number,
+    required: true
+  },
 })
 
 const OrderDetail = mongoose.model('OrderDetail', OrderDetailSchema)

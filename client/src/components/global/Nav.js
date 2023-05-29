@@ -29,7 +29,6 @@ export default function Nav(){
         setBrands([...brands, data])
         setNewBrand("")
       }
-      
     return (
         <div className="navigation">
             <div className="container">

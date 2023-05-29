@@ -7,20 +7,19 @@ const OrderSchema = new Schema({
         ref: 'User',
         required: true
     },
-    orderDate:{
+    createdAt:{
         type: Date,
         required: true
     },
-    lastUpdate:{
+    updatedAt:{
         type: Date,
         required: true
-    },
-    orderDetail:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'OrderDetail',
-      required: true
     },
     status:{
+      type: Number,
+      required: true
+    },
+    total :{
       type: Number,
       required: true
     }

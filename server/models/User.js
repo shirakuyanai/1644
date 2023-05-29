@@ -26,12 +26,7 @@ const UserSchema = new Schema({
         type: String,
         required: true // ?
     },
-    address:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Address',
-        required: true
-    },
-    roles:{
+    role:{
         type: Number,
         default: 1,
         // 1: customer
