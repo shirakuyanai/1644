@@ -3,22 +3,13 @@ const app = express();
 const port = 5000
 const mongoose = require('mongoose')
 app.use(express.json())
-app.use(cors({
-    origin: 'http://localhost:5000'
-}))
-
-mongoose.connect("mongodb+srv://atn:Atn123@tbhzone.54x3cwa.mongodb.net/").then(() => console.log("All set")).catch((console.error))
+mongoose.connect("mongodb+srv://react:React123@react.psjcoby.mongodb.net/").then(() => console.log("All set")).catch((console.error))
 
 const Brand = require('./models/Brand')
 const Product = require('./models/Product')
-const Address = require('./models/Address')
-const OrderDetail = require('./models/OrderDetail')
 const Order = require('./models/Order')
-const User = require('./models/User')
-
-app.get('/', async(req, res) => {
-    res.json('Server is online!')
-})
+const User = require('./models/User');
+const OrderDetail = require('./models/OrderDetail');
 
 app.get('/brands', async(req, res) => {
     const brands = await Brand.find()
@@ -35,28 +26,65 @@ app.post('/newbrand', (req, res) => {
     res.json(brand)
 })
 
+app.put('/brands/edit/:id', async(req, res) => {
+    const id = req.params.id;
+    const brand = await Brand.findById(id);
+    
+    if (!prod) {
+      return res.status(404).json({ error: 'Brand not found' });
+    }
+    brand.name = req.body.name;
+    await brand.save();
+    res.json(brand);
+});
+
+app.delete('/brands/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    
+    try {
+      // Find the brand by ID
+      const brand = await Brand.findById(id);
+  
+      if (!brand) {
+        return res.status(404).json({ error: 'Brand not found' });
+      }
+  
+      // Delete the brand and the associated products
+      await Brand.findByIdAndDelete(id);
+      await Product.deleteMany({ brand: id });
+  
+      res.json({ message: 'Brand and associated products deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 // products
 app.get('/products', async(req, res) => {
     const products = await Product.find()
     res.json(products)
 })
-//add product
-app.post('/newproduct', async(req, res) => {
-    const product = await new Product(
-        {
-            name: req.body.name,
-            brand: req.body.brand,
-            price: req.body.price,
-            description: req.body.description,
-            colors: req.body.colors,
-            specs: req.body.specs
-        }
-    )
-    product.save()
-    res.json(product)
-})
-//edit product
+
+app.post('/newproduct', async (req, res) => {
+    const product = new Product({
+      name: req.body.name,
+      brand: req.body.brand,
+      price: req.body.price,
+      description: req.body.description,
+      stock: req.body.stock,
+      image: req.body.image
+    });
+  
+    try {
+      const savedProduct = await product.save();
+      res.json(savedProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
 app.put('/products/edit/:id', async (req, res) => {
     const id = req.params.id;
     const prod = await Product.findById(id);
@@ -76,7 +104,7 @@ app.put('/products/edit/:id', async (req, res) => {
     
     res.json(prod);
   });
-  //delete product
+  
   app.delete('/products/delete/:id', async(req, res) => {
     const id = req.params.id;
     const prod = await Product.findByIdAndDelete(id);
@@ -84,8 +112,18 @@ app.put('/products/edit/:id', async (req, res) => {
     res.json(prod)
 })
 
+let cart = []
 
-  
+//Cart
+app.post('/addToCart/:id', async(req, res) => {
+    const product = await Product.findById(req.params.id)
+    cart.push(product)
+    res.json(cart);
+})
+
+app.get('/viewcart', async (req, res) => {
+    res.json(cart)
+})
 
 //Order
 
@@ -95,8 +133,27 @@ app.get('/orders', async(req, res) => {
 })
 
 app.post('/neworder', async(req, res) => {
-    
+    const order = await new Order(
+    {
+        user: req.body.name,
+        createdAt: req.body.createdAt,
+        updatedAt: req.body.updatedAt,
+        status: req.body.status,
+        address: req.body.address
+    }
+    )
+    foreach(product )
+    const orderDetail = await new OrderDetail(
+        {
+            user: req.body.name,
+            createdAt: req.body.createdAt,
+            updatedAt: req.body.updatedAt,
+            status: req.body.status,
+            address: req.body.address
+        }
+        )
 })
+
 
 
 

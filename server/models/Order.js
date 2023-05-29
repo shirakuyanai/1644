@@ -19,9 +19,13 @@ const OrderSchema = new Schema({
       type: Number,
       required: true
     },
+    address:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Address',
+      required: true
+  },
     total :{
       type: Number,
-      required: true
     }
 })
 

@@ -1,8 +1,56 @@
 
 
-GET http://localhost:5000/brands
+# GET http://localhost:5000/products
 # Content-Type: application/json
 
 # {
 #     "name": "Huawei"
 # }
+
+# POST http://localhost:5000/addToCart/64747a3811c9ebe3d8a6613f
+get http://localhost:5000/viewcart/
+
+# 64747a3011c9ebe3d8a6613d
+# 64747a3811c9ebe3d8a6613f
+
+# GET http://localhost:5000/products
+
+# POST http://localhost:5000/newbrand
+# Content-Type: application/json
+
+# {
+#     "name": "Oppo"
+# }
+
+# 64649107ff6c8eccfe2787e9
+
+# PUT http://localhost:5000/products/edit/6464d972177f3dbed8e4f595
+# Content-Type: application/json
+
+# {
+#   "name": "Oppo",
+#   "brand": "64649107ff6c8eccfe2787e9",
+#   "price": 333,
+#   "description": "ddđ",
+#   "colors": [ "eee" ],
+#   "specs": [ "ddd" ]
+# }
+
+
+
+# GET http://localhost:5000/brands
+# POST http://localhost:5000/newproduct
+# Content-Type: application/json
+
+# {
+# "name": "DDDDDDDDDDDo",
+# "brand": "645f8cd29908832439f3302f",
+# "price": 34341,
+# "stock": 3,
+# "description": "DAWMJKDKOWADJWAIOWA"
+# }
+
+# DELETE  http://localhost:5000/products/delete/6467334dcb6f0eeb50c7cc68
+
+# GET http://localhost:5000/products
+
