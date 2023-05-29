@@ -11,6 +11,14 @@ const Order = require('./models/Order')
 const User = require('./models/User');
 const OrderDetail = require('./models/OrderDetail');
 
+const session = require('express-session');
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.get('/brands', async(req, res) => {
     const brands = await Brand.find()
     res.json(brands)
@@ -112,17 +120,27 @@ app.put('/products/edit/:id', async (req, res) => {
     res.json(prod)
 })
 
-let cart = []
 
+let cart = []
 //Cart
-app.post('/addToCart/:id', async(req, res) => {
-    const product = await Product.findById(req.params.id)
-    cart.push(product)
-    res.json(cart);
-})
+// Cart
+app.post('/addToCart/:id', async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+  
+  req.session.cart.push(product);
+  
+  res.json(req.session.cart);
+});
+
 
 app.get('/viewcart', async (req, res) => {
-    res.json(cart)
+  const cart = req.session.cart || [];
+
+  res.json(cart);
 })
 
 //Order
