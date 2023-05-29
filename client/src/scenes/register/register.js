@@ -1,7 +1,6 @@
 import React from 'react'
-import '../login/style.css'
 
-export default function Login(){
+export default function Register(){
     const changeTitle = (data) => {
         document.title = data;
     }
