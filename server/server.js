@@ -121,59 +121,111 @@ app.put('/products/edit/:id', async (req, res) => {
 })
 
 
-let cart = []
-//Cart
+// let cart = []
+
 // Cart
 app.post('/addToCart/:id', async (req, res) => {
-  const product = await Product.findById(req.params.id);
-  
-  if (!req.session.cart) {
-    req.session.cart = [];
+  const productId = req.params.id;
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    return res.status(404).json({ error: 'Product not found' });
   }
-  
-  req.session.cart.push(product);
-  
+
+  const cart = req.session.cart || [];
+
+  // Check if the product already exists in the cart
+  const existingProductIndex = cart.findIndex((item) => item.product && item.product._id.toString() === productId);
+
+  if (existingProductIndex !== -1) {
+    // Product already exists in the cart, update the quantity
+    cart[existingProductIndex].quantity++;
+  } else {
+    // Product does not exist in the cart, add a new entry
+    cart.push({
+      product: product,
+      quantity: 1,
+    });
+  }
+
+  req.session.cart = cart;
+
   res.json(req.session.cart);
 });
+
 
 
 app.get('/viewcart', async (req, res) => {
   const cart = req.session.cart || [];
 
   res.json(cart);
-})
+});
 
-//Order
+// Order
+app.get('/orders', async (req, res) => {
+  const orders = await Order.find();
+  res.json(orders);
+});
 
-app.get('/orders', async(req, res) => {
-    const order = await Order.find()
-    res.json(order)
-})
+app.post('/neworder', async (req, res) => {
+  try {
+    const { user, status, address } = req.body;
 
-app.post('/neworder', async(req, res) => {
-    const order = await new Order(
-    {
-        user: req.body.name,
-        createdAt: req.body.createdAt,
-        updatedAt: req.body.updatedAt,
-        status: req.body.status,
-        address: req.body.address
+    const cart = req.session.cart || [];
+
+    // Check if the cart is empty
+    if (cart.length === 0) {
+      return res.status(400).json({ error: 'Cart is empty. Cannot place an order.' });
     }
-    )
-    foreach(product )
-    const orderDetail = await new OrderDetail(
-        {
-            user: req.body.name,
-            createdAt: req.body.createdAt,
-            updatedAt: req.body.updatedAt,
-            status: req.body.status,
-            address: req.body.address
-        }
-        )
-})
+
+    const order = new Order({
+      user: user,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      status: status,
+      address: address,
+    });
+
+    // Save the order to the database
+    const savedOrder = await order.save();
+
+    // Create order details for each product in the cart
+    const orderDetails = [];
+
+    for (const cartItem of cart) {
+      const orderDetail = new OrderDetail({
+        order: savedOrder._id,
+        product: cartItem.product,
+        quantity: cartItem.quantity,
+        price: cartItem.price,
+      });
+
+      // Save the order detail to the database
+      const savedOrderDetail = await orderDetail.save();
+
+      orderDetails.push(savedOrderDetail);
+    }
+
+    // Clear the cart after placing the order
+    req.session.cart = [];
+
+    res.json({ message: 'Order created successfully', order: savedOrder, orderDetails });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
-
+app.delete('/Deleteallorders', async (req, res) => {
+  try {
+    await Order.deleteMany({});
+    res.json({ message: 'All orders deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 app.listen(port, () => console.log(`listening on port ${port}`))

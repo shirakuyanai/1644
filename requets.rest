@@ -8,7 +8,7 @@
 # }
 
 # POST http://localhost:5000/addToCart/64747a3811c9ebe3d8a6613f
-get http://localhost:5000/viewcart/
+# get http://localhost:5000/viewcart/
 
 # 64747a3011c9ebe3d8a6613d
 # 64747a3811c9ebe3d8a6613f
@@ -53,4 +53,26 @@ get http://localhost:5000/viewcart/
 # DELETE  http://localhost:5000/products/delete/6467334dcb6f0eeb50c7cc68
 
 # GET http://localhost:5000/products
+
+# POST http://localhost:5000/addToCart/64747a3011c9ebe3d8a6613d
+
+# GET http://localhost:5000/viewcart
+
+# GET http://localhost:5000/orders
+
+POST http://localhost:5000/neworder
+Content-Type: application/json
+
+{
+  "user": "John Doe",
+  "status": 1,
+  "address": "123 Main St"
+}
+
+# DELETE http://localhost:5000/Deleteallorders
+
+# View all orders
+# GET http://localhost:5000/orders
+
+# DELETE http://localhost:5000/Deleteallorders
 

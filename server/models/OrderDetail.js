@@ -14,11 +14,11 @@ const OrderDetailSchema = new Schema({
   },
   quantity:{
     type: Number,
-    required: true
+    // required: true
   },
   total:{
     type: Number,
-    required: true
+    // required: true
   },
 })
 
