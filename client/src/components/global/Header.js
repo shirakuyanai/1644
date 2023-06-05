@@ -15,7 +15,7 @@ export default function Header(){
                         <button type="Submit"><i className="fa fa-search"></i></button>
                     </div>
                 </div>
-                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div className="col-lg-3 col-md-3 col-sm-12">
                     <div className="account-section">
                         <ul >
                             <li className="title"><a href="/login">My Account</a></li>

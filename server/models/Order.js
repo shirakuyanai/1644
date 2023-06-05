@@ -21,7 +21,7 @@ const OrderSchema = new Schema({
     address:{
       type: String,
       required: true
-  },
+    },
     total :{
       type: Number,
     }
@@ -56,7 +56,7 @@ module.exports = Order
 //       type: mongoose.Schema.Types.ObjectId,
 //       ref: 'Address',
 //       required: true
-//   },
+//    },
 //     total :{
 //       type: Number,
 //     }
