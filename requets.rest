@@ -60,13 +60,32 @@
 
 # GET http://localhost:5000/orders
 
-POST http://localhost:5000/neworder
+# POST http://localhost:5000/neworder
+# Content-Type: application/json
+
+# {
+#   "user": "John Doe",
+#   "status": 1,
+#   "address": "123 Main St"
+# }
+
+
+# POST http://localhost:5000/register
+# Content-Type: application/json
+
+# {
+#   "firstname": "John",
+#   "lastname": "Doe",
+#   "email": "lekecas806@ratedane.com",
+#   "password": "Bandicam_123123"
+# }
+
+POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-  "user": "John Doe",
-  "status": 1,
-  "address": "123 Main St"
+  "email": "lekecas806@ratedane.com",
+  "password": "Bandicam_123123"
 }
 
 # DELETE http://localhost:5000/Deleteallorders

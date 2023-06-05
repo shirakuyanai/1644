@@ -1,6 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 export default function Product() {
+    useEffect(() =>{
+        changeTitle('Product Name') // TODO: change the title to the name of the product
+    })
+
+    const changeTitle = (data) => {
+        document.title = data;
+    }
+
     return (
         <div>
             <section className="content">

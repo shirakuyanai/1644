@@ -10,6 +10,7 @@ import Checkout from './scenes/checkout/checkout'
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 export default function App() {
+
   return (
     <div>
       <BrowserRouter>

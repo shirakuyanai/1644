@@ -1,4 +1,13 @@
+import {useEffect} from 'react'
 export default function Cart() {
+    useEffect(() =>{
+        changeTitle('Cart')
+    })
+
+    const changeTitle = (data) => {
+        document.title = data;
+    }
+
     return (
         <div className="m-4 bg-light">
             <div className="text-center m-4">

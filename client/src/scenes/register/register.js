@@ -1,6 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 export default function Register(){
+    useEffect(() =>{
+        changeTitle('Register')
+    })
+
     const changeTitle = (data) => {
         document.title = data;
     }

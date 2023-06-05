@@ -1,14 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 export default function Login(){
+    useEffect(() =>{
+        changeTitle('Login')
+    })
+
     const changeTitle = (data) => {
         document.title = data;
     }
 
+
     return (
         <div className="login-scene">
             <div className="center">
-                {changeTitle("Login")}
                 <h1>Login</h1>
                 <form method="post">
                     <div className="txt_field">

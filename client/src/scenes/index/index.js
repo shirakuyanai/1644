@@ -4,15 +4,18 @@ import Slider from '../../components/dashboard/Slider'
 import LastestProducts from '../../components/dashboard/LastestProducts'
 import BestSeller from '../../components/dashboard/BestSeller'
 import FeaturedProducts from '../../components/dashboard/FeaturedProducts'
-
+import {useEffect} from 'react'
 export default function Dashboard(){
+    useEffect(() =>{
+        changeTitle('ATN Toys')
+    })
+
     const changeTitle = (data) => {
         document.title = data;
     }
 
     return (
         <div>
-            {changeTitle("MobiStore")}
             {/* Slider */}
             <Slider/>
             {/* End of Slider */}

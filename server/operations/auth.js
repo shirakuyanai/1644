@@ -1,6 +1,6 @@
 const { config } = require('dotenv');
 config();
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const {sendEmail} = require('./email')
 const {validateEmail, validatePassword} = require('./validate.js')
 const jwt = require('jsonwebtoken');
@@ -8,10 +8,10 @@ const User = require('../models/User');
 const Token = require('../models/Token');
 
 const hashPassword = (password) => {
-    const saltRounds = 10; // Number of salt rounds for bcrypt to generate
+    const saltRounds = 10; // Number of salt rounds for bcryptjs to generate
 
     return new Promise((resolve, reject) => {
-        bcrypt.hash(password, saltRounds, (err, hash) => {
+        bcryptjs.hash(password, saltRounds, (err, hash) => {
         if (err) {
             reject(err); // Reject the promise with the error
         } else {
@@ -26,7 +26,7 @@ const hashPassword = (password) => {
 
 const compareHash = (password_1, password_2) => {
     return new Promise((resolve, reject) => {
-        bcrypt.compare(password_1, password_2, (err, result) => {
+        bcryptjs.compare(password_1, password_2, (err, result) => {
             if (err) {
                 // Error during password comparison
                 reject(err); // Reject the promise with the error

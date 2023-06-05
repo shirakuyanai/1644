@@ -94,7 +94,8 @@ app.get('/checkLoginStatus', (req, res) => {
       await Login(req,res)
   });
 
-  
+  // User logout
+
   app.post('/logout', (req,res) => {
       try{
           if (req.session.user)

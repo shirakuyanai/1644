@@ -1,6 +1,13 @@
 import {useState, useEffect} from 'react'
 export default function CheckOut() {
     const [pickedDelivery, setPickedDelivery] = useState(1)
+    useEffect(() =>{
+        changeTitle('Checkout')
+    })
+
+    const changeTitle = (data) => {
+        document.title = data;
+    }
 
     return (
         <div className='bg-light'>
