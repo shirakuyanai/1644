@@ -22,8 +22,8 @@ app.use(session({
 
 connectToDatabase().then(() => {
 
-  app.get('/brands', async (res) => {
-      await viewBrands(res)
+  app.get('/brands', async (req,res) => {
+      await viewBrands(req,res)
   })
 
   app.post('/newbrand', async (req, res) => {
@@ -39,8 +39,8 @@ connectToDatabase().then(() => {
   });
 
   // products
-  app.get('/products', async(res) => {
-      await viewProducts(res)
+  app.get('/products', async(req,res) => {
+      await viewProducts(req,res)
   })
 
   app.post('/newproduct', async (req, res) => {
@@ -65,7 +65,7 @@ connectToDatabase().then(() => {
   });
 
   // Order
-  app.get('/orders', async (res) => {
+  app.get('/orders', async (req,res) => {
     await newOrder(req, res)
   });
 
@@ -126,5 +126,6 @@ app.get('/checkLoginStatus', (req, res) => {
     app.get('/verify/:token', async (req, res) => {
         await verifyUser(req, res)
     })
+
     app.listen(PORT, () => console.log(`listening on port ${PORT}`))
 })

@@ -1,6 +1,6 @@
 const Product = require('../models/Product')
 
-const viewProducts = async (res) => {
+const viewProducts = async (req,res) => {
     const products = await Product.find()
     res.json(products)
 }

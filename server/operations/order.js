@@ -1,7 +1,7 @@
 const Order = require('../models/Order')
 const OrderDetail = require('../models/OrderDetail');
 
-const viewOrders = async (res) => {
+const viewOrders = async (req,res) => {
     const orders = await Order.find();
     res.json(orders);
 }

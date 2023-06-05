@@ -1,7 +1,7 @@
 const Brand = require('../models/Brand')
 
 // View all brands
-const viewBrands = async (res) => {
+const viewBrands = async (req,res) => {
     const brands = await Brand.find()
     res.json(brands)
 }
