@@ -96,6 +96,7 @@ app.get('/checkLoginStatus', (req, res) => {
 
   // User logout
 //duong ngu
+//kyanhngu cua ky anh
 //kyngu
 //jijijiij
   app.post('/logout', (req,res) => {
