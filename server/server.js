@@ -97,6 +97,7 @@ app.get('/checkLoginStatus', (req, res) => {
   // User logout
 //duong ngu
 //kyanhngu cua ky anh
+//kyngu
   app.post('/logout', (req,res) => {
       try{
           if (req.session.user)
