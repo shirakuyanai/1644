@@ -10,6 +10,8 @@ const {Login, Register, verifyUser, changePassword} = require('./operations/auth
 const {viewBrands, addBrand, editBrand, deleteBrand} = require('./operations/brand')
 const {viewProducts, newProduct, editProduct, deleteProduct} = require('./operations/product')
 const {addToCart, viewCart} = require('./operations/cart')
+const {viewUser} = require ('./operations/user')
+const{editUser} = require('./operations/user')
 
 const connectToDatabase = require('./db');
 
@@ -29,14 +31,22 @@ connectToDatabase().then(() => {
   app.post('/newbrand', async (req, res) => {
       await addBrand(req,res)
   })
-
+ 
   app.put('/brands/edit/:id', async (req, res) => {
       await editBrand(req,res)
   });
-
+  
   app.delete('/brands/delete/:id', async (req, res) => {
       await deleteBrand(req,res)
   });
+//user
+ 
+ app.get('/viewUser', async (req, res) => {
+    await viewUser(req,res)
+ })
+ app.put('/user/:id', async (req, res) => {
+    await editUser(req,res)  
+ });
 
   // products
   app.get('/products', async(req,res) => {

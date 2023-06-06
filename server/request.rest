@@ -1,8 +1,10 @@
-GET http://localhost:5000/brands
+GET http://localhost:5000/viewUser
 
-# POST http://localhost:5000/newbrand
+# PUT http://localhost:5000/user/647f01592fe09a71c2892c74
 # Content-Type: application/json
 
 # {
-#     "name": "Oppo"
+#     "firstname": "Djjhv",
+#     "lastname": "sknsk"
 # }
+

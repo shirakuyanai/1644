@@ -21,7 +21,7 @@ const editBrand = async (req,res) => {
     const id = req.params.id;
     const brand = await Brand.findById(id);
     
-    if (!prod) {
+    if (!brand) {
     return res.status(404).json({ error: 'Brand not found' });
     }
     brand.name = req.body.name;
