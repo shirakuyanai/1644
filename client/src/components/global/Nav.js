@@ -9,7 +9,7 @@ export default function Nav(){
     }, [])
   
     const getBrand = () => {
-      fetch('/brands')
+      fetch('http://localhost:5000/brands')
       .then(res => res.json())
       .then(data => setBrands(data))
       .catch(err => console.log(err))
@@ -23,7 +23,8 @@ export default function Nav(){
           }, 
           body: JSON.stringify({
             name: newBrand
-          })
+          }),
+          credentials: 'include'
         })
         .then( res => res.json())
         setBrands([...brands, data])
