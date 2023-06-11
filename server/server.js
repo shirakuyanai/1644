@@ -6,7 +6,30 @@ const PORT = process.env.PORT
 app.use(express.json())
 const cors = require('cors');
 var session = require('express-session')
-
+const multer = require('multer');
+const { initializeApp } = require('firebase/app');
+const { getStorage } = require('firebase/storage');
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyC0_n8aeUkQW7tDLHHmdaiF8hcCKihTt2Y",
+  authDomain: "atn-toy.firebaseapp.com",
+  projectId: "atn-toy",
+  storageBucket: "atn-toy.appspot.com",
+  messagingSenderId: "212199370557",
+  appId: "1:212199370557:web:8c757b71ebc48115f6df54",
+  measurementId: "G-9LT2NQPGXM"
+  };
+  
+  const storage = getStorage(initializeApp(firebaseConfig));
+  
+  // Multer configuration for file upload
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024, // Maximum file size in bytes (e.g., 5MB)
+    },
+  });
+  
 const {Login, Register, verifyUser, changePassword} = require('./operations/auth')
 const {viewBrands, addBrand, editBrand, deleteBrand} = require('./operations/brand')
 const {viewProducts, newProduct, editProduct, deleteProduct} = require('./operations/product')
@@ -50,11 +73,11 @@ connectToDatabase().then(() => {
       await viewProducts(req,res)
   })
 
-  app.post('/newproduct', async (req, res) => {
+  app.post('/newproduct', upload.single('image'), async (req, res) => {
       await newProduct(req,res)
   });
 
-  app.put('/products/edit/:id', async (req, res) => {
+  app.put('/products/edit/:id', upload.single('image'), async (req, res) => {
       await editProduct(req, res)
   });
     
