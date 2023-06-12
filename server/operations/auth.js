@@ -152,10 +152,15 @@ const verifyUser = async (req,res) => {
         else{
             const user = await User.findOne({id: decodedToken.id})
             user.verified = true
-            token.revoked = true;
             user.save();
-            token.save();
-            res.json('You have successfully verified your account.')
+            if (user.verified === true){
+                token.revoked = true;
+                token.save();
+                res.json('You have successfully verified your account.')
+            }
+            else{
+                res.json('An error has occurred. Please try agains.')
+            }
         }
       } catch (error) {
         // Token verification failed
