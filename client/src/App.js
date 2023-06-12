@@ -6,6 +6,7 @@ import Register from './scenes/register/register'
 import Product from './scenes/product/product'
 import Cart from './scenes/cart/cart'
 import Checkout from './scenes/checkout/checkout'
+import Register_Success from './scenes/register_success'
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
@@ -20,10 +21,12 @@ export default function App() {
               <Route path="/index" element={<Index/>} />
               <Route path="/product" element={<Product/>} />
               <Route path="/cart" element={<Cart/>} />
+              <Route path="/register_success" element={<Register_Success/>} />
           </Route>
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/checkout" element={<Checkout/>} />
+          
         </Routes>
       </BrowserRouter>
     </div>

@@ -11,29 +11,29 @@ const { initializeApp } = require('firebase/app');
 const { getStorage } = require('firebase/storage');
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC0_n8aeUkQW7tDLHHmdaiF8hcCKihTt2Y",
+    apiKey: "AIzaSyC0_n8aeUkQW7tDLHHmdaiF8hcCKihTt2Y",
   authDomain: "atn-toy.firebaseapp.com",
   projectId: "atn-toy",
   storageBucket: "atn-toy.appspot.com",
   messagingSenderId: "212199370557",
   appId: "1:212199370557:web:8c757b71ebc48115f6df54",
   measurementId: "G-9LT2NQPGXM"
-};
-
-const storage = getStorage(initializeApp(firebaseConfig));
-
-// Multer configuration for file upload
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // Maximum file size in bytes (e.g., 5MB)
-  },
-});
-
-const { Login, Register, verifyUser, changePassword } = require('./operations/auth')
-const { viewBrands, addBrand, editBrand, deleteBrand } = require('./operations/brand')
-const { viewProducts, newProduct, editProduct, deleteProduct } = require('./operations/product')
-const { addToCart, viewCart } = require('./operations/cart')
+  };
+  
+  const storage = getStorage(initializeApp(firebaseConfig));
+  
+  // Multer configuration for file upload
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024, // Maximum file size in bytes (e.g., 5MB)
+    },
+  });
+  
+const {Login, Register, verifyUser, changePassword} = require('./operations/auth')
+const {viewBrands, addBrand, editBrand, deleteBrand} = require('./operations/brand')
+const {viewProducts, newProduct, editProduct, deleteProduct} = require('./operations/product')
+const {addToCart, viewCart} = require('./operations/cart')
 
 const connectToDatabase = require('./db');
 
@@ -41,48 +41,52 @@ app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: null }
+  cookie: { maxAge: null } 
 }))
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
-  credentials: true,
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true,
 }));
 
 
 connectToDatabase().then(() => {
 
-  app.get('/brands', async (req, res) => {
-    await viewBrands(req, res)
+  app.get('/checkLoginStatus', async (req, res) => {
+    await checkLoginStatus(req, res)
+});
+
+  app.get('/brands', async (req,res) => {
+      await viewBrands(req,res)
   })
 
   app.post('/newbrand', async (req, res) => {
-    await addBrand(req, res)
+      await addBrand(req,res)
   })
 
   app.put('/brands/edit/:id', async (req, res) => {
-    await editBrand(req, res)
+      await editBrand(req,res)
   });
 
   app.delete('/brands/delete/:id', async (req, res) => {
-    await deleteBrand(req, res)
+      await deleteBrand(req,res)
   });
 
   // products
-  app.get('/products', async (req, res) => {
-    await viewProducts(req, res)
+  app.get('/products', async(req,res) => {
+      await viewProducts(req,res)
   })
 
   app.post('/newproduct', upload.single('image'), async (req, res) => {
-    await newProduct(req, res)
+      await newProduct(req,res)
   });
 
   app.put('/products/edit/:id', upload.single('image'), async (req, res) => {
-    await editProduct(req, res)
+      await editProduct(req, res)
   });
-
-  app.delete('/products/delete/:id', async (req, res) => {
-    await deleteProduct(req, res)
+    
+  app.delete('/products/delete/:id', async(req, res) => {
+      await deleteProduct(req, res)
   })
 
   // Cart
@@ -95,7 +99,7 @@ connectToDatabase().then(() => {
   });
 
   // Order
-  app.get('/orders', async (req, res) => {
+  app.get('/orders', async (req,res) => {
     await newOrder(req, res)
   });
 
@@ -108,52 +112,54 @@ connectToDatabase().then(() => {
     await deleteOrder(req, res);
   });
 
-  app.get('/checkLoginStatus', (req, res) => {
-    if (req.session && req.session.user) {
+app.get('/checkLoginStatus', (req, res) => {
+  if (req.session && req.session.user) {
       // User is logged in
       res.json({ isLoggedIn: true, user: req.session.user });
-    } else {
+  } else {
       // User is not logged in
       res.json({ isLoggedIn: false });
-    }
-  })
+  }
+})
 
-  // User login
+    // User login
 
   app.post('/login', async (req, res) => {
-    await Login(req, res)
+      await Login(req,res)
   });
 
   // User logout
 
-  app.post('/logout', (req, res) => {
-    try {
-      if (req.session.user) {
-        req.session.user = null;
-        res.json('Logout successfully!');
+  app.post('/logout', (req,res) => {
+      try{
+          if (req.session.user)
+          {
+              req.session.user = null;
+              res.json('Logout successfully!');
+          }
+          else
+          {
+              res.status(401).json('No user currently logged in.');
+          }
       }
-      else {
-        res.status(401).json('No user currently logged in.');
+      catch (error) {
+          res.status(401).json(error);
       }
-    }
-    catch (error) {
-      res.status(401).json(error);
-    }
   })
 
-  app.post('/changePassword', async (req, res) => {
-    await changePassword(req, res)
-  })
+    app.post('/changePassword', async(req, res) => {
+        await changePassword(req,res)
+    })
 
-  // Register new users
+    // Register new users
+    
+    app.post('/register', async (req, res) =>{
+        await Register(req, res);
+    })
 
-  app.post('/register', async (req, res) => {
-    await Register(req, res);
-  })
+    app.get('/verify/:token', async (req, res) => {
+        await verifyUser(req, res)
+    })
 
-  app.get('/verify/:token', async (req, res) => {
-    await verifyUser(req, res)
-  })
-
-  app.listen(PORT, () => console.log(`listening on port ${PORT}`))
+    app.listen(PORT, () => console.log(`listening on port ${PORT}`))
 })

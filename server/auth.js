@@ -152,8 +152,7 @@ const Register = async (req, res) => {
                 lastname: req.body.lastname
             })
             user.save()
-            console.log(user)
-            const send_email_response = sendEmail(user.email, user)
+            const send_email_response = sendEmail(user.email, user._id)
             res.json(send_email_response)
         }
     }
@@ -163,6 +162,11 @@ const changePassword = async (req, res) => {
     try{
         if (req.session.user){
             const loggedIn_user = req.session.user
+        
+            // const hash_old_password = await hashPassword(req.body.old_password)
+            // const hash_new_password = await hashPassword(req.body.new_password)
+            // const hash_new_password_2 = await hashPassword(req.body.new_password_2)
+
             const user = await User.findOne({email: loggedIn_user})
 
             if (await compareHash(req.body.old_password, user.password)){
@@ -197,7 +201,7 @@ const verifyUser = async (req,res) => {
             res.json('This token has been revoked.');
         }
         else{
-            const user = await User.findOne({_id: decodedToken.user._id})
+            const user = await User.findOne({id: decodedToken.id})
             user.verified = true
             token.revoked = true;
             user.save();
