@@ -68,12 +68,11 @@ const compareHash = (password_1, password_2) => {
   
   const authenticateToken = (req, res, next) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
-  
     if (!token) {
       return res.json({ message: 'Authentication required' });
     }
-    const secretKey = process.env.SESSION_SECRET_KEY;
     
+    const secretKey = process.env.SESSION_SECRET_KEY;
     jwt.verify(token, secretKey, (err, decoded) => {
         req.user = decoded;
         next();
@@ -88,16 +87,12 @@ const compareHash = (password_1, password_2) => {
         const user = users[i];
         const correctPassword = await compareHash(req.body.password, user.password);
         if (user.email === req.body.email && correctPassword) {
-          if (!user.verified) {
-            correctCredentials = true;
-            return res.json('Your account has not been verified.');
-          } else {
+
             const token = generateToken(user._id);
             console.log('Logged in successfully!');
             correctCredentials = true;
-            return res.json({ user, token });
+            res.json({ user, token });
           }
-        }
       }
       if (!correctCredentials) {
         console.log('Invalid username or password');
@@ -114,35 +109,31 @@ const compareHash = (password_1, password_2) => {
 const Register = async (req, res) => {
     if (!req.body.firstname)
     {
-        res.json('Please enter a first name.');
+        res.status(400).json('Please enter a first name.');
     }
     else if (!req.body.lastname)
     {
-        res.json('Please enter a last name.');
+        res.status(400).json('Please enter a last name.');
     }
     else if (!req.body.email)
     {
-        res.json('Please enter an email.');
+        res.status(400).json('Please enter an email.');
     }
     else if (!validateEmail(req.body.email))
     {
-        res.json('Invalid email.');
+        res.status(400).json('Invalid email.');
     }
     else if (!req.body.password1 || !req.body.password2)
     {
-        res.json('Please enter password.');
+        res.status(400).json('Please enter password.');
     }
     else if (req.body.password1 !== req.body.password2)
     {
-        res.json('Passwords don\'t match.');
-    }
-    else if (!req.body.phone)
-    {
-        res.json('Please provide a phone number.');
+        res.status(400).json('Passwords don\'t match.');
     }
     else if (!validatePassword(req.body.password1))
     {
-        res.json('Invalid password.');
+        res.status(400).json('Invalid password.');
     }
     else
     {
@@ -150,7 +141,7 @@ const Register = async (req, res) => {
 
         if (users)
         {
-            res.json('Email taken.');
+            res.status(400).json('Email taken.');
         }
         else
         {
@@ -178,25 +169,86 @@ const changePassword = async (req, res) => {
                     if (req.body.new_password === req.body.new_password_2){
                         user.password = await hashPassword(req.body.new_password)
                         user.save()
-                        res.json('Password changed successfully')
+                        res.status(400).json('Password changed successfully')
                     }
                     else{
-                        res.json('Passwords don\'t match.')
+                        res.status(400).json('Passwords don\'t match.')
                     }
                 }
                 else{
-                    res.json('Incorrect old password')
+                    res.status(400).json('Incorrect old password')
                 }
             }else{
-                res.json('Incorrect email address.')
+                res.status(400).json('Incorrect email address.')
             }
         }
         else{
-            res.json('No user logged in')
+            res.status(400).json('No user logged in')
         }
     }
     catch(err){
         res.json(err)
+    }
+}
+
+const resendVerificationEmail = async (req, res) => {
+    try {
+      if (req.user) {
+        const user = await User.findOne({ _id: req.user.id });
+  
+        if (user.verified) {
+          return res.json('Account already verified.');
+        }
+  
+        // const token = new Token({ user: user._id, value: generateToken(user._id) });
+        // await token.save();
+  
+        const send_email_response = sendEmail(user.email, user)
+        res.json(send_email_response)
+      } else {
+        res.status(400).json('No user logged in');
+      }
+    } catch (error) {
+      res.status(500).json('Internal server error');
+    }
+  };
+  
+
+const editUserEmail = async (req, res) => {
+    try{
+        const checkMail = await User.findOne({ email: req.body.email });
+
+        if (checkMail)
+        {
+            res.status(400).json('Email taken.');
+        }else{
+        if (req.user){
+            const user = await User.findOne({_id: req.user.id})
+            if (req.body.old_Email === user.email){
+                if (await compareHash(req.body.old_password, user.password)){
+                    
+                        user.password = await hashPassword(req.body.old_password)
+                        user.email = req.body.email       
+                        user.verified = false;     
+                        user.save()
+            const send_email_response = sendEmail(user.email, user)
+            res.json(send_email_response)
+                    
+                }
+                else{
+                    res.status(400).json('Incorrect old Email')
+                }
+            }else{
+                res.status(400).json('Incorrect email address.')
+            }
+        }
+        else{
+            res.status(400).json('No user logged in')
+        }
+    }
+    }
+    catch(err){
+        res.status(400).json(err)
     }
 }
 
@@ -210,7 +262,7 @@ const verifyUser = async (req,res) => {
         }
         else{
             const user = await User.findOne({_id: decodedToken.user._id})
-            user.verified = true
+            user.verified = true;
             token.revoked = true;
             user.save();
             if (user.verified){
@@ -226,4 +278,17 @@ const verifyUser = async (req,res) => {
       }
 }
 
-module.exports = {Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken}
+const checkVerifyStatus = async (req, res) => {
+    if (req.user) {
+        const foundUser = await User.findOne({_id: req.user.id})
+        if (foundUser){
+            res.json(foundUser.verified);
+        }else{
+            res.json(false);
+        }
+    } else {
+        res.json(false);
+    }
+}
+
+module.exports = {Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken, editUserEmail, checkVerifyStatus, resendVerificationEmail}

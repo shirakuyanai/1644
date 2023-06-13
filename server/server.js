@@ -30,11 +30,10 @@ const firebaseConfig = {
     },
   });
   
-const {Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken} = require('./operations/auth')
+const {Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken, editUserEmail, checkVerifyStatus, resendVerificationEmail} = require('./operations/auth')
 const {viewBrands, addBrand, editBrand, deleteBrand} = require('./operations/brand')
 const {viewProducts, newProduct, editProduct, deleteProduct} = require('./operations/product')
 const {addToCart, viewCart} = require('./operations/cart')
-
 const connectToDatabase = require('./db');
 
 app.use(session({
@@ -51,7 +50,15 @@ app.use(cors({
 
 
 connectToDatabase().then(() => {
-
+  app.post('/resendVerificationEmail', authenticateToken, async (req, res) => {
+    try {
+      await resendVerificationEmail(req, res);
+    } catch (error) {
+console.log(error)    }
+  });
+  app.get('/checkVerifyStatus', authenticateToken, async (req, res) => {
+    await checkVerifyStatus(req, res)
+  });
   app.get('/checkLoginStatus', authenticateToken, async (req, res) => {
     await checkLoginStatus(req, res)
   });
@@ -60,15 +67,15 @@ connectToDatabase().then(() => {
       await viewBrands(req,res)
   })
 
-  app.post('/newbrand', async (req, res) => {
+  app.post('/newbrand',authenticateToken, async (req, res) => {
       await addBrand(req,res)
   })
 
-  app.put('/brands/edit/:id', async (req, res) => {
+  app.put('/brands/edit/:id',authenticateToken, async (req, res) => {
       await editBrand(req,res)
   });
 
-  app.delete('/brands/delete/:id', async (req, res) => {
+  app.delete('/brands/delete/:id', authenticateToken, async (req, res) => {
       await deleteBrand(req,res)
   });
 
@@ -77,15 +84,15 @@ connectToDatabase().then(() => {
       await viewProducts(req,res)
   })
 
-  app.post('/newproduct', upload.single('image'), async (req, res) => {
+  app.post('/newproduct', authenticateToken, upload.single('image'), async (req, res) => {
       await newProduct(req,res)
   });
 
-  app.put('/products/edit/:id', upload.single('image'), async (req, res) => {
+  app.put('/products/edit/:id', authenticateToken, upload.single('image'), async (req, res) => {
       await editProduct(req, res)
   });
     
-  app.delete('/products/delete/:id', async(req, res) => {
+  app.delete('/products/delete/:id',authenticateToken, async(req, res) => {
       await deleteProduct(req, res)
   })
 
@@ -94,21 +101,20 @@ connectToDatabase().then(() => {
     await addToCart(req, res)
   });
 
-  app.get('/viewcart', async (req, res) => {
+  app.get('/viewcart',  async (req, res) => {
     await viewCart(req, res)
   });
 
   // Order
-  app.get('/orders', async (req,res) => {
+  app.get('/orders', authenticateToken, async (req,res) => {
     await newOrder(req, res)
   });
 
-  app.post('/neworder', async (req, res) => {
+  app.post('/neworder', authenticateToken, async (req, res) => {
     await newOrder(req, res);
   });
 
-
-  app.delete('/Deleteallorders', async (req, res) => {
+  app.delete('/deleteallorders', authenticateToken, async (req, res) => {
     await deleteOrder(req, res);
   });
 
@@ -140,7 +146,10 @@ connectToDatabase().then(() => {
     app.post('/changePassword', authenticateToken, async(req, res) => {
         await changePassword(req,res)
     })
-
+    //User change email
+    app.post('/changeEmail', authenticateToken, async (req, res) => {
+        await editUserEmail(req, res)
+    })
     // Register new users
     
     app.post('/register', async (req, res) =>{

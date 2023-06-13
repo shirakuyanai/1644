@@ -1,4 +1,5 @@
-const User = require('../models/User')
+const User = require('../models/User');
+
 
 const viewUser = async (req, res) => {
     const user = await User.find()
@@ -17,6 +18,9 @@ const editUser = async (req, res) => {
     await user.save();
     res.json(user);
 }
+
+
+
 
 module.exports = { viewUser, editUser }
 

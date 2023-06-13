@@ -19,6 +19,7 @@ auth: {
 
 
 const generateToken = async (user) => {
+    
     const secretKey = process.env.TOKEN_SECRET_KEY;
     const token = jwt.sign({user}, secretKey, { expiresIn: '5m' });
     const new_token = new Token({
