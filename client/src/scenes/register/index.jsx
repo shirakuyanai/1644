@@ -33,12 +33,13 @@ export default function Register(){
                         firstname: firstname,
                         lastname: lastname,
                         email: email,
+                        phone: phone,
                         password1: password1,
                         password2: password2,
                     }),
                     credentials: 'include'
                 })
-                console.log(response.json())
+                alert(await response.json());
                 if (response.ok){
                     window.location.replace('/register_success')
                 }
@@ -72,11 +73,11 @@ export default function Register(){
                         <label htmlFor="inputEmail">Email</label>
                     </div>
 
-                    {/* <div className="txt_field">
+                    <div className="txt_field">
                         <input type="text" name="phone" id="inputPhone" autoComplete="phone" required onChange={(event) => setPhone(event.target.value)}/>
                         <span></span>
                         <label htmlFor="inputPhone">Phone</label>
-                    </div> */}
+                    </div>
 
                     <div className="txt_field">
                         <input type="password" name="passwor1" id="inputPassword1" autoComplete="current-password" required onChange={(event) => setPassword1(event.target.value)}/>

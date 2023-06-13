@@ -30,7 +30,7 @@ const firebaseConfig = {
     },
   });
   
-const {Login, Register, verifyUser, changePassword} = require('./operations/auth')
+const {Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken} = require('./operations/auth')
 const {viewBrands, addBrand, editBrand, deleteBrand} = require('./operations/brand')
 const {viewProducts, newProduct, editProduct, deleteProduct} = require('./operations/product')
 const {addToCart, viewCart} = require('./operations/cart')
@@ -52,9 +52,9 @@ app.use(cors({
 
 connectToDatabase().then(() => {
 
-  app.get('/checkLoginStatus', async (req, res) => {
+  app.get('/checkLoginStatus', authenticateToken, async (req, res) => {
     await checkLoginStatus(req, res)
-});
+  });
 
   app.get('/brands', async (req,res) => {
       await viewBrands(req,res)
@@ -112,16 +112,6 @@ connectToDatabase().then(() => {
     await deleteOrder(req, res);
   });
 
-app.get('/checkLoginStatus', (req, res) => {
-  if (req.session && req.session.user) {
-      // User is logged in
-      res.json({ isLoggedIn: true, user: req.session.user });
-  } else {
-      // User is not logged in
-      res.json({ isLoggedIn: false });
-  }
-})
-
     // User login
 
   app.post('/login', async (req, res) => {
@@ -131,23 +121,23 @@ app.get('/checkLoginStatus', (req, res) => {
   // User logout
 
   app.post('/logout', (req,res) => {
-      try{
-          if (req.session.user)
-          {
-              req.session.user = null;
-              res.json('Logout successfully!');
-          }
-          else
-          {
-              res.status(401).json('No user currently logged in.');
-          }
-      }
-      catch (error) {
-          res.status(401).json(error);
-      }
+    try{
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error logging out:', err);
+          return res.status(500).json('Internal server error');
+        }
+        res.clearCookie('session-id'); // Clear the session cookie
+        res.json({ message: 'Logout successful' });
+      });
+    }
+    catch(err)
+    {
+      console.error(err);
+    }
   })
 
-    app.post('/changePassword', async(req, res) => {
+    app.post('/changePassword', authenticateToken, async(req, res) => {
         await changePassword(req,res)
     })
 

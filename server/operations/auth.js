@@ -39,13 +39,21 @@ const compareHash = (password_1, password_2) => {
 };
 
     const checkLoginStatus = async (req, res) => {
-        if (authenticateToken){
-            if (req.user) {
-                const user = await User.findOne({_id: req.user.id})
-                res.json({ email: user.email });
-            } else {
-                res.status(200).json({});
+        if (req.user) {
+            const foundUser = await User.findOne({_id: req.user.id})
+            if (foundUser){
+                const user = new User({
+                    email: foundUser.email,
+                    firstname: foundUser.firstname,
+                    lastname: foundUser.lastname,
+                    phone: foundUser.phone
+                })
+                res.json(user);
+            }else{
+                res.json({});
             }
+        } else {
+            res.json({});
         }
     }
 
@@ -61,17 +69,14 @@ const compareHash = (password_1, password_2) => {
   const authenticateToken = (req, res, next) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
   
-    
     if (!token) {
-      return res.status(401).json({ message: 'Authentication required' });
+      return res.json({ message: 'Authentication required' });
     }
-  
     const secretKey = process.env.SESSION_SECRET_KEY;
-  
+    
     jwt.verify(token, secretKey, (err, decoded) => {
-  
-      req.user = decoded;
-      next();
+        req.user = decoded;
+        next();
     });
   };
   
@@ -85,7 +90,7 @@ const compareHash = (password_1, password_2) => {
         if (user.email === req.body.email && correctPassword) {
           if (!user.verified) {
             correctCredentials = true;
-            return res.status(401).json('Your account has not been verified.');
+            return res.json('Your account has not been verified.');
           } else {
             const token = generateToken(user._id);
             console.log('Logged in successfully!');
@@ -96,7 +101,7 @@ const compareHash = (password_1, password_2) => {
       }
       if (!correctCredentials) {
         console.log('Invalid username or password');
-        return res.status(401).json('Invalid username or password');
+        return res.json('Invalid username or password');
       }
     } catch (error) {
       console.error(error);
@@ -109,31 +114,35 @@ const compareHash = (password_1, password_2) => {
 const Register = async (req, res) => {
     if (!req.body.firstname)
     {
-        res.status(401).json('Please enter a first name.');
+        res.json('Please enter a first name.');
     }
     else if (!req.body.lastname)
     {
-        res.status(401).json('Please enter a last name.');
+        res.json('Please enter a last name.');
     }
     else if (!req.body.email)
     {
-        res.status(401).json('Please enter an email.');
+        res.json('Please enter an email.');
     }
     else if (!validateEmail(req.body.email))
     {
-        res.status(401).json('Invalid email.');
+        res.json('Invalid email.');
     }
     else if (!req.body.password1 || !req.body.password2)
     {
-        res.status(401).json('Please enter password.');
+        res.json('Please enter password.');
     }
     else if (req.body.password1 !== req.body.password2)
     {
-        res.status(401).json('Passwords don\'t match.');
+        res.json('Passwords don\'t match.');
+    }
+    else if (!req.body.phone)
+    {
+        res.json('Please provide a phone number.');
     }
     else if (!validatePassword(req.body.password1))
     {
-        res.status(401).json('Invalid password.');
+        res.json('Invalid password.');
     }
     else
     {
@@ -141,7 +150,7 @@ const Register = async (req, res) => {
 
         if (users)
         {
-            res.status(401).json('Email taken.');
+            res.json('Email taken.');
         }
         else
         {
@@ -149,7 +158,8 @@ const Register = async (req, res) => {
                 email: req.body.email,
                 password: await hashPassword(req.body.password1),
                 firstname: req.body.firstname,
-                lastname: req.body.lastname
+                lastname: req.body.lastname,
+                phone: req.body.phone,
             })
             user.save()
             console.log(user)
@@ -161,30 +171,32 @@ const Register = async (req, res) => {
 
 const changePassword = async (req, res) => {
     try{
-        if (req.session.user){
-            const loggedIn_user = req.session.user
-            const user = await User.findOne({email: loggedIn_user})
-
-            if (await compareHash(req.body.old_password, user.password)){
-                if (req.body.new_password === req.body.new_password_2){
-                    user.password = await hashPassword(req.body.new_password)
-                    user.save()
-                    res.json('Password changed successfully')
+        if (req.user){
+            const user = await User.findOne({_id: req.user.id})
+            if (req.body.email === user.email){
+                if (await compareHash(req.body.old_password, user.password)){
+                    if (req.body.new_password === req.body.new_password_2){
+                        user.password = await hashPassword(req.body.new_password)
+                        user.save()
+                        res.json('Password changed successfully')
+                    }
+                    else{
+                        res.json('Passwords don\'t match.')
+                    }
                 }
                 else{
-                    res.status(401).json('Passwords don\'t match.')
+                    res.json('Incorrect old password')
                 }
-            }
-            else{
-                res.status(401).json('Incorrect old password')
+            }else{
+                res.json('Incorrect email address.')
             }
         }
         else{
-            res.status(401).json('No user logged in')
+            res.json('No user logged in')
         }
     }
     catch(err){
-        res.status(401).json(err)
+        res.json(err)
     }
 }
 
@@ -207,7 +219,6 @@ const verifyUser = async (req,res) => {
             } else{
                 res.json('Something went wrong. Please try again later.')
             }
-            
         }
       } catch (error) {
         // Token verification failed

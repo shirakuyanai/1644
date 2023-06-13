@@ -1,16 +1,49 @@
 import React, {useEffect, useState} from 'react'
 
 export default function Login(){
+    const [loading, setLoading] = useState(true)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [loggedIn, setLoggedIn] = useState({})
     useEffect(() =>{
         changeTitle('Login')
+        checkLoginStatus()
+        if (Object.keys(loggedIn).length > 0){
+            window.location.replace('/index')
+        }
     })
+
+    if (Object.keys(loggedIn).length > 0){
+        window.location.replace('/index')
+    }
+
+    const checkLoginStatus = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch('http://localhost:5000/checkLoginStatus',{
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                credentials: 'include',
+            })
+            if (response.ok){
+                const data = await response.json()
+                setLoggedIn(data)
+                console.log(loggedIn)
+                setLoading(false)
+            }
+            setLoading(false)
+        }catch (e) {
+            console.error(e)
+            setLoading(false)
+        }
+    }
 
     const changeTitle = (data) => {
         document.title = data;
     }
-
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -32,9 +65,9 @@ export default function Login(){
                     const token = data.token
                     localStorage.setItem('token', token);
                     window.location.replace('/index');
-
                 }
                 else{
+                    alert(await response.json());
                     console.error('Login failed:', await response.json());
                 }
             }
@@ -47,6 +80,7 @@ export default function Login(){
         }
     }
 
+    
 
     return (
         <div className="login-scene">
