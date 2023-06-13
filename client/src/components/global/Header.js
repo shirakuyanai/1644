@@ -55,10 +55,11 @@ export default function Header() {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-8">
-            <div className="logo">
-              <a href="/index">
-                <img src="../assets/images/logo.png" alt="" />{' '}
+          
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-8 ">
+          <div className="logo w-75">
+              <a href="/index"> 
+                <img src="../assets/images/Untitled-2.png" alt="" />{' '}
               </a>
             </div>
           </div>
