@@ -29,10 +29,7 @@ export default function Layout() {
 
       <Outlet />
 
-      {/* Subscribe */}
-      <Subscribe />
-      {/* End of Subscribe */}
-
+  
       {/* Features */}
       <Features />
       {/* End of Features */}

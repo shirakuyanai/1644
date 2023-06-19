@@ -7,7 +7,6 @@ const addToCart = async (req, res) => {
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-
     const cart = req.session.cart || [];
 
     // Check if the product already exists in the cart

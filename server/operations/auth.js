@@ -224,7 +224,11 @@ const editUserEmail = async (req, res) => {
         }else{
         if (req.user){
             const user = await User.findOne({_id: req.user.id})
+            console.log(user.email);
+            console.log(req.body.old_Email);
+
             if (req.body.old_Email === user.email){
+                
                 if (await compareHash(req.body.old_password, user.password)){
                     
                         user.password = await hashPassword(req.body.old_password)
@@ -239,7 +243,7 @@ const editUserEmail = async (req, res) => {
                     res.status(400).json('Incorrect old Email')
                 }
             }else{
-                res.status(400).json('Incorrect email address.')
+                res.status(400).json('Incorrect email address or password')
             }
         }
         else{

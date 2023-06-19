@@ -1,5 +1,5 @@
 import React from 'react';
-import Brands from '../../components/dashboard/Brands';
+
 import Slider from '../../components/dashboard/Slider';
 import LastestProducts from '../../components/dashboard/LastestProducts';
 import BestSeller from '../../components/dashboard/BestSeller';
@@ -19,10 +19,6 @@ export default function Dashboard() {
       {/* Slider */}
       <Slider />
       {/* End of Slider */}
-
-      {/* Brands */}
-      <Brands />
-      {/* End of Brands */}
 
       {/* Lastest Products */}
       <LastestProducts />

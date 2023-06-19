@@ -7,6 +7,7 @@ export default function FeaturedProducts(){
     useEffect(() => {
         getProducts()
         getBrands()
+        
     },[])
 
     const getProducts = async () => {
