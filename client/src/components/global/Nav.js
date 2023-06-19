@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 export default function Nav() {
   const [brands, setBrands] = useState([]);
   const [newBrand, setNewBrand] = useState('');
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getBrand();
+    getProducts();
   }, []);
 
   const getBrand = () => {
@@ -14,7 +16,12 @@ export default function Nav() {
       .then(data => setBrands(data))
       .catch(err => console.log(err));
   };
-
+  const getProducts = () => {
+    fetch('http://localhost:5000/products')
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .catch(err => console.log(err));
+  };
   const addBrand = async () => {
     const data = await fetch('/newbrand', {
       method: 'POST',
@@ -48,7 +55,21 @@ export default function Nav() {
                         <a href="#">{item.name}</a>
                       </li>
                     ))}
+                    
                   </ul>
+                  
+                </li>
+                <li className="has-sub">
+                  <a href="#">Products</a>
+                  <ul>
+                    {products.map((item, index) => (
+                      <li key={index}>
+                        <a href="#">{item.name}</a>
+                      </li>
+                    ))}
+                    
+                  </ul>
+                  
                 </li>
               </ul>
             </div>

@@ -1,31 +1,17 @@
-import React, {useEffect} from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { StrictMode } from 'react';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { configureStore } from '@reduxjs/toolkit';
-import globalReducer from 'state'
-import {Provider} from "react-redux"
+import { BrowserRouter } from "react-router-dom"
+import ContextProvider from "./components/context/ContextProvider";
 
-const store = configureStore({
-  reducer: {
-    global: globalReducer,
-  }
-})
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  // useEffect(() =>{
-  //   changeTitle('Admin - ATN Toys')
-  // })
-
-  // const changeTitle = (data) => {
-  //     document.title = data;
-  // }
-
-  <React.StrictMode>
-    <Provider store={store}>
+ReactDOM.render(
+  <ContextProvider>
+    <BrowserRouter>
       <App />
-    </Provider>
-  </React.StrictMode>
+    </BrowserRouter>
+  </ContextProvider>
+  ,
+  document.getElementById('root')
 );
 

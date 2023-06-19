@@ -26,7 +26,7 @@ const UserSchema = new Schema({
         default: 1,
         // 1: customer
         // 2: admin
-        // 3: manager
+    
     },
     verified: {
         type: Boolean,

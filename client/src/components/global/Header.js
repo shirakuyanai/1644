@@ -57,7 +57,7 @@ export default function Header() {
         <div className="row">
           
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-8 ">
-          <div className="logo w-75">
+          <div className="logo w-50">
               <a href="/index"> 
                 <img src="../assets/images/Untitled-2.png" alt="" />{' '}
               </a>

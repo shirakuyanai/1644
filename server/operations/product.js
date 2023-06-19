@@ -9,7 +9,11 @@ const viewProducts = async (req, res) => {
   res.json(products)
 }
 
-
+const oneProduct = async (req, res) => {
+  const id = req.params.id;
+  const product = await Product.findOne(id)
+  res.json(product)
+}
 
 // const validation = (req, res,   next) => {
 //   const errors = validationResult(req);
@@ -78,9 +82,9 @@ const editProduct = async (req, res) => {
     prod.name = req.body.name;
     prod.brand = req.body.brand;
     prod.price = req.body.price;
+    prod.stock = req.body.stock;
+    prod.image = req.body.image;
     prod.description = req.body.description;
-    prod.colors = req.body.colors;
-    prod.specs = req.body.specs;
 
     try {
       if (req.file) {
@@ -108,4 +112,4 @@ const deleteProduct = async (req, res) => {
   res.json(prod)
 }
 
-module.exports = { viewProducts, newProduct, editProduct, deleteProduct }
+module.exports = { viewProducts, newProduct, editProduct, deleteProduct , oneProduct}
