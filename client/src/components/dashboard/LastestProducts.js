@@ -1,14 +1,17 @@
     import React, {useEffect, useState} from 'react'
     import { useNavigate } from "react-router-dom";
 
-    export default function LatestProducts(){
+    export default function LatestProducts({updateQuantity}){
         const [products, setProducts] = useState([])
         const [brands, setBrands] = useState([])
         const navigate = useNavigate();
         useEffect(() => {
             getProducts()
             getBrands()
+            
         },[])
+
+    
 
         const getProducts = async () => {
             const response = await fetch('http://localhost:5000/products')
@@ -23,7 +26,7 @@
                 setBrands(await response.json())
             }
         }
-        const handleCartClick = async (productId) => {
+        const  handleCartClick = async (productId) => {
             try {
             const response = await fetch(
                 `http://localhost:5000/addToCart/${productId}`, // Replace `productId` with the actual product ID
@@ -35,6 +38,14 @@
                 credentials: "include",
                 }
             );
+            if (response.ok) {
+                const cart = await response.json();
+                let quantity = 0
+                cart.forEach(element => {
+                  quantity += element.quantity
+                }); 
+                updateQuantity(quantity)
+            }
             } catch (ex) {
             console.error(ex);
             }
@@ -65,8 +76,8 @@
                                                 <span className="offer-price">20%off</span>
                                             </div>
                                             <div className="shopping-btn">
-                                                <a href="#" className="product-btn btn-like"><i className="fa fa-heart"></i></a>
-                                                <a href="#" className="product-btn btn-cart" onClick={() => handleCartClick(product._id)}><i  className="fa fa-shopping-cart"></i></a>
+                                                <a className="product-btn btn-like"><i className="fa fa-heart"></i></a>
+                                                <a  className="product-btn btn-cart" onClick={() => handleCartClick(product._id)}><i  className="fa fa-shopping-cart"></i></a>
                                             </div>
                                         </div>
                                     </div>

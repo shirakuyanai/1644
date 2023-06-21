@@ -11,7 +11,7 @@ const viewProducts = async (req, res) => {
 
 const oneProduct = async (req, res) => {
   const id = req.params.id;
-  const product = await Product.findOne(id)
+  const product = await Product.findById(id)
   res.json(product)
 }
 

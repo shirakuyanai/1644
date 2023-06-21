@@ -8,7 +8,7 @@ import { Outlet } from 'react-router-dom';
 import Footer from '../../components/global/Footer';
 import Header from '../../components/global/Header';
 
-export default function Layout() {
+export default function Layout({quantity, updateQuantity}) {
   return (
     <div>
       {/* Head Element */}
@@ -18,7 +18,7 @@ export default function Layout() {
       {/* Header */}
       <div className="header-wrapper">
         {/* Search bar + Account + Cart */}
-        <Header />
+        <Header quantity={quantity} updateQuantity={updateQuantity}/>
         {/* End of Search bar + Account + Cart */}
 
         {/* Nav Bar */}

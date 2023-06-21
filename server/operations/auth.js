@@ -43,6 +43,7 @@ const compareHash = (password_1, password_2) => {
             const foundUser = await User.findOne({_id: req.user.id})
             if (foundUser){
                 const user = new User({
+                    _id: foundUser._id,
                     email: foundUser.email,
                     firstname: foundUser.firstname,
                     lastname: foundUser.lastname,

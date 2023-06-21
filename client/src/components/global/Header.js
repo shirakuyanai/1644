@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Header() {
+export default function Header({quantity, updateQuantity}) {
 
     const [loggedIn, setLoggedIn] = useState({})
     const [loading, setLoading] = useState(true)
@@ -9,6 +9,7 @@ export default function Header() {
     useEffect(() => {
         checkLoginStatus()
         cart()
+
     }, [])
 
     const checkLoginStatus = async () => {
@@ -55,7 +56,7 @@ export default function Header() {
               cart.forEach(element => {
                 quantity += element.quantity
               });
-              setCartQuantity(quantity)
+              updateQuantity(quantity)
             }
           } catch (ex) {
             console.error(ex);
@@ -105,7 +106,7 @@ export default function Header() {
                                         <li className="title">|</li>
                                         <li className="title"><a href="/register">Register</a></li>
                                         <li className="title">|</li>
-                                        <li className="title"><a href="/cart" ><i className="fa fa-shopping-cart"></i>   <sup className="cart-quantity">{cartQuantity}</sup></a></li>
+                                        <li className="title"><a href="/cart" ><i className="fa fa-shopping-cart"></i>   <sup className="cart-quantity">{quantity}</sup></a></li>
                                     </ul>
                                 )
                                 :
@@ -115,7 +116,7 @@ export default function Header() {
                                         <li className="title">|</li>
                                         <li className="title"><a href="#" onClick={handleLogout}>Logout</a></li>
                                         <li className="title">|</li>
-                                        <li className="title"><a href="/cart" ><i className="fa fa-shopping-cart"></i>   <sup className="cart-quantity">{cartQuantity}</sup></a></li>
+                                        <li className="title"><a href="/cart" ><i className="fa fa-shopping-cart"></i>   <sup className="cart-quantity">{quantity}</sup></a></li>
                                     </ul>
                                 )}
                         </div>

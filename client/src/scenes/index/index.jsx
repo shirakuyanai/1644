@@ -5,7 +5,7 @@ import LastestProducts from '../../components/dashboard/LastestProducts';
 import BestSeller from '../../components/dashboard/BestSeller';
 import FeaturedProducts from '../../components/dashboard/FeaturedProducts';
 import { useEffect } from 'react';
-export default function Dashboard() {
+export default function Dashboard({updateQuantity}) {
   useEffect(() => {
     changeTitle('ATN Toys');
   });
@@ -21,7 +21,7 @@ export default function Dashboard() {
       {/* End of Slider */}
 
       {/* Lastest Products */}
-      <LastestProducts />
+      <LastestProducts updateQuantity={updateQuantity}/>
       {/* End of Lastest Products */}
 
       {/* Best Seller */}

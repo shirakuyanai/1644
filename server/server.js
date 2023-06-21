@@ -33,9 +33,10 @@ const upload = multer({
 const { Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken, editUserEmail, checkVerifyStatus, resendVerificationEmail } = require('./operations/auth')
 const { viewBrands, addBrand, editBrand, deleteBrand, viewOneBrand} = require('./operations/brand')
 const { viewProducts, newProduct, editProduct, deleteProduct, oneProduct } = require('./operations/product')
-const { addToCart, viewCart } = require('./operations/cart')
+const { addToCart, viewCart, newQuantity, deleteSession, deleteProductCart } = require('./operations/cart')
 const connectToDatabase = require('./db');
 const { viewUser, viewOneUser, editUser  } = require('./operations/user');
+const { viewOrders, newOrder, deleteOrder} = require('./operations/order');
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
@@ -57,13 +58,22 @@ connectToDatabase().then(() => {
       console.log(error)
     }
   });
+
+  app.delete('/clearcart', async (req, res) =>{
+    await deleteSession(req, res);
+  })
+  app.delete('/api/cart/product/:id', async (req, res) =>{
+    await deleteProductCart(req, res);
+  })
   app.get('/checkVerifyStatus', authenticateToken, async (req, res) => {
     await checkVerifyStatus(req, res)
   });
   app.get('/checkLoginStatus', authenticateToken, async (req, res) => {
     await checkLoginStatus(req, res)
   });
-
+  app.put('/quantity/:id', async (req, res) => {
+   await newQuantity(req, res);
+  })
   app.get('/brands', async (req, res) => {
     await viewBrands(req, res)
   })
@@ -87,7 +97,7 @@ connectToDatabase().then(() => {
   app.get('/products', async (req, res) => {
     await viewProducts(req, res)
   })
-  app.get('api/product/:id', async (req, res) => {
+  app.get('/api/product/:id', async (req, res) => {
     await oneProduct(req, res)
   })
 
@@ -113,15 +123,14 @@ connectToDatabase().then(() => {
   });
 
   // Order
-  app.get('/orders', authenticateToken, async (req, res) => {
-    await newOrder(req, res)
+  app.get('/orders', async (req, res) => {
+    await viewOrders(req, res)
   });
 
-  app.post('/neworder', authenticateToken, async (req, res) => {
+  app.post('/neworder', async (req, res) => {
     await newOrder(req, res);
   });
-
-  app.delete('/deleteallorders', authenticateToken, async (req, res) => {
+  app.delete('/deleteallorders', async (req, res) => {
     await deleteOrder(req, res);
   });
 

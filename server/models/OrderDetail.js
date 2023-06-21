@@ -18,7 +18,6 @@ const OrderDetailSchema = new Schema({
   },
   total:{
     type: Number,
-    // required: true
   },
 })
 

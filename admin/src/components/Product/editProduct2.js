@@ -5,6 +5,7 @@ import { updatedata } from '../context/ContextProvider';
 const EditProduct2 = () => {
   const { setUPdata } = useContext(updatedata);
   const history = useHistory();
+  const [product, setProduct] = useState({});
 
   const [inpval, setINP] = useState({
     name: '',
