@@ -9,7 +9,7 @@ export default function Cart() {
   const [old_password, setOldPassword] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
-
+  const [orderUser, setOrderUser] = useState([]);
   const changeTitle = data => {
     document.title = data;
   };
@@ -17,8 +17,11 @@ export default function Cart() {
   useEffect(() => {
     if (Object.keys(loggedIn).length === 0) {
       checkLoginStatus();
+    } else {
+      orders();
+      fetchProductData();
     }
-  }, []);
+  }, [loggedIn]);
 
   const checkLoginStatus = async () => {
     try {
@@ -41,6 +44,19 @@ export default function Cart() {
     } catch (e) {
       console.error(e);
       setLoading(false);
+    }
+  };
+  const orders = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/user/${loggedIn._id}/orders`,
+      );
+      if (response.ok) {
+        const ordersData = await response.json();
+        setOrderUser(ordersData);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -71,7 +87,7 @@ export default function Cart() {
   };
 
   const handleChangeName = async event => {
-    try{
+    try {
       const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/changeName', {
         method: 'POST',
@@ -83,15 +99,13 @@ export default function Cart() {
         body: JSON.stringify({
           firstname: firstname,
           lastname: lastname,
-        })
-      })
-      alert(await response.json())
-    
+        }),
+      });
+      alert(await response.json());
+    } catch (err) {
+      throw new Error(err);
     }
-    catch (err) {
-      throw new Error(err)
-    }
-  }
+  };
   const handleChangeEmail = async event => {
     try {
       const token = localStorage.getItem('token');
@@ -120,7 +134,40 @@ export default function Cart() {
       console.error(e);
     }
   };
+  const [productData, setProductData] = useState([]);
+  const fetchProductData = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/products', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
+      if (res.ok) {
+        const data = await res.json();
+        setProductData(data);
+      } else {
+        console.error('Failed to fetch product data');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getProductName = productId => {
+    const product = productData.find(product => product._id === productId);
+    return product ? product.name : '';
+  };
+  const getProductImage = productId => {
+    const product = productData.find(product => product._id === productId);
+    return product ? product.image : '';
+  };
+  orderUser.forEach(order => {
+    order.products.forEach(product => {
+      const productName = getProductImage(product.productId);
+      console.log(productName);
+    });
+  });
   useEffect(() => {
     changeTitle('Profile');
   });
@@ -136,7 +183,7 @@ export default function Cart() {
       <section className="" style={{ backgroundColor: '#f4f5f7' }}>
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col col-lg-6 mb-4 mb-lg-0">
+            <div className="col col-lg- mb-4 mb-lg-0">
               <div className="card mb-3" style={{ borderRadius: 0.5 + 'rem' }}>
                 <div className="row g-0">
                   <div
@@ -412,6 +459,57 @@ export default function Cart() {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="card-body p-4">
+                  <h4>Order Information</h4>
+                  {orderUser.map(order => (
+                    <div key={order._id}>
+                      <hr className="mt-0 mb-4 border" />
+                      <div className="row pt-1">
+                        <div className="col-6">
+                          <h2>Status</h2>
+                          <p className="text-muted">{order.status}</p>
+                        </div>
+                        <div className="col-6">
+                          <h2>Address</h2>
+                          <p className="text-muted">{order.address}</p>
+                        </div>
+                        <div className="col-12">
+                          <h2>Products</h2>
+<div className="row">
+                          {order.products.map(product => (
+                           
+                              <div className="col-sm-6" key={product._id}>
+                                <div className="card">
+                                  <div className="card-body">
+                                  
+                                    <h5 className='card-title'>
+                                      Name: {getProductName(product.productId)}
+                                    </h5>
+                                    <img
+                                      src={getProductImage(product.productId)}
+                                      alt={getProductName(product.productId)}
+                                      style={{
+                                        width: '100px',
+                                        height: '100px',
+                                      }}
+                                    />
+                                    <p>Quantity: {product.quantity}</p>
+                                    <p>Subtotal: {product.total}</p>
+                                  
+                                  </div>
+                                </div>
+                              </div>
+                          
+                          ))}
+                          </div>
+                          <h3>Shipping: 10$</h3>
+                          <h3> Tax: 5%</h3>
+                          <h1>TOTAL: {order.total}</h1>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

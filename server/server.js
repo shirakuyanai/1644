@@ -31,12 +31,12 @@ const upload = multer({
 });
 
 const { Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken, editUserEmail, checkVerifyStatus, resendVerificationEmail } = require('./operations/auth')
-const { viewBrands, addBrand, editBrand, deleteBrand, viewOneBrand} = require('./operations/brand')
+const { viewBrands, addBrand, editBrand, deleteBrand, viewOneBrand, viewProductBrand, searchProductBrand} = require('./operations/brand')
 const { viewProducts, newProduct, editProduct, deleteProduct, oneProduct } = require('./operations/product')
 const { addToCart, viewCart, newQuantity, deleteSession, deleteProductCart } = require('./operations/cart')
 const connectToDatabase = require('./db');
 const { viewUser, viewOneUser, editUser, changeName } = require('./operations/user');
-const { viewOrders, newOrder, deleteOrder} = require('./operations/order');
+const { viewOrders, newOrder, deleteOrder, viewUserOrders} = require('./operations/order');
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
@@ -51,6 +51,8 @@ app.use(cors({
 
 
 connectToDatabase().then(() => {
+  
+  
   app.post('/resendVerificationEmail', authenticateToken, async (req, res) => {
     try {
       await resendVerificationEmail(req, res);
@@ -89,6 +91,9 @@ connectToDatabase().then(() => {
   app.get('/api/brand/:id', async (req, res) => {
     await viewOneBrand(req, res)
   })
+  app.get('/search', async (req, res) => {
+    await searchProductBrand(req, res)
+  })
 
   app.post('/newbrand',  async (req, res) => {
     await addBrand(req, res)
@@ -103,6 +108,9 @@ connectToDatabase().then(() => {
   });
 
   // products
+  app.get('/productsbybrand/:id', async (req, res) => {
+    await viewProductBrand(req, res)
+  })
   app.get('/products', async (req, res) => {
     await viewProducts(req, res)
   })
@@ -192,6 +200,9 @@ connectToDatabase().then(() => {
   })
   app.patch('/api/user/edit/:id', async (req, res) => {
     await editUser(req, res)
+  })
+  app.get('/api/user/:id/orders', async (req, res) => {
+    await viewUserOrders (req,res)
   })
   app.listen(PORT, () => console.log(`listening on port ${PORT}`))
 })

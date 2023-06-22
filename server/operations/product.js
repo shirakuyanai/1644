@@ -112,4 +112,7 @@ const deleteProduct = async (req, res) => {
   res.json(prod)
 }
 
+
+
+
 module.exports = { viewProducts, newProduct, editProduct, deleteProduct , oneProduct}

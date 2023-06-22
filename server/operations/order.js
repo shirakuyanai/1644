@@ -1,10 +1,11 @@
-const Order = require('../models/Order')
+const Order = require('../models/Order');
 const OrderDetail = require('../models/OrderDetail');
+const User = require('../models/User');
 
-const viewOrders = async (req,res) => {
-    const orders = await Order.find();
-    res.json(orders);
-}
+const viewOrders = async (req, res) => {
+  const orders = await Order.find();
+  res.json(orders);
+};
 
 const newOrder = async (req, res) => {
   try {
@@ -29,7 +30,7 @@ const newOrder = async (req, res) => {
       updatedAt: new Date(),
       status,
       address,
-      total: cartTotal+((cartTotal+10)*(5/100)), // 5% tax + 10& delivery
+      total: cartTotal + (cartTotal + 10) * (5 / 100), // 5% tax + 10% delivery
     });
 
     // Save the order to the database
@@ -63,16 +64,61 @@ const newOrder = async (req, res) => {
   }
 };
 
-
-
 const deleteOrder = async (req, res) => {
-    try {
-        await Order.deleteMany({});
-        res.json({ message: 'All orders deleted successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}
+  try {
+    await Order.deleteMany({});
+    res.json({ message: 'All orders deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
-module.exports = {viewOrders, newOrder, deleteOrder}
+const viewUserOrders = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find orders associated with the user
+    const orders = await Order.find({ user: userId });
+
+    const userOrders = [];
+
+    for (const order of orders) {
+      const { _id, createdAt, status, address, total } = order;
+
+      // Find order details for the current order
+      const orderDetails = await OrderDetail.find({ order: _id });
+
+      // Extract product, quantity, and total price from order details
+      const products = orderDetails.map(detail => {
+        const { product, quantity, total } = detail;
+
+        return {
+          productId: product._id, // Add product ID
+          productName: product.name,
+          quantity,
+          total
+        };
+      });
+
+      userOrders.push({
+        _id,
+        createdAt,
+        status,
+        address,
+        total,
+        products
+      });
+    }
+
+    res.json(userOrders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+
+module.exports = { viewOrders, newOrder, deleteOrder, viewUserOrders };

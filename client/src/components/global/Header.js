@@ -93,10 +93,7 @@ export default function Header({quantity, updateQuantity}) {
                         </div>
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div className="search-bg">
-                            <input type="text" className="form-control rounded-pill" placeholder="Search Here" />
-                            <button type="Submit"><i className="fa fa-search"></i></button>
-                        </div>
+                        
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
                         <div className="account-section">
