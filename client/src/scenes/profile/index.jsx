@@ -45,7 +45,6 @@ export default function Cart() {
   };
 
   const handleChangePassword = async event => {
-    event.preventDefault();
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/changePassword', {
@@ -70,8 +69,30 @@ export default function Cart() {
       console.error(e);
     }
   };
+
+  const handleChangeName = async event => {
+    try{
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/changeName', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          firstname: firstname,
+          lastname: lastname,
+        })
+      })
+      alert(await response.json())
+    
+    }
+    catch (err) {
+      throw new Error(err)
+    }
+  }
   const handleChangeEmail = async event => {
-    event.preventDefault();
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/changeEmail', {
@@ -201,7 +222,7 @@ export default function Cart() {
                             aria-label="Close"
                           ></button>
                         </div>
-                        <form action="#">
+                        <form action="#" onSubmit={handleChangeName}>
                           <div className="modal-body text-center">
                             <input
                               type="text"
@@ -224,7 +245,7 @@ export default function Cart() {
                             />
                           </div>
                           <div className="modal-footer d-flex justify-content-between">
-                            <button type="button" className="btn btn-success">
+                            <button type="submit" className="btn btn-success">
                               Save changes
                             </button>
                             <button

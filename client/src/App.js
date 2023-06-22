@@ -54,7 +54,7 @@ export default function App() {
           <Route element={<Layout quantity={cartQuantity} updateQuantity={updateQuantity}/>}>
             <Route path="/" element={<Navigate to="/index" replace />} />
             <Route path="/index" element={<Index updateQuantity={updateQuantity}/>} />
-            <Route path="/product" element={<Product />} />
+            <Route path="/product/:id" element={<Product updateQuantity={updateQuantity}/>} />
             <Route path="/cart" element={<Cart updateQuantity={updateQuantity}/>} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/register_success" element={<Register_Success />} />
@@ -62,7 +62,6 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
-          
         </Routes>
       </BrowserRouter>
     </div>

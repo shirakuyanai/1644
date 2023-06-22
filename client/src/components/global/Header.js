@@ -9,7 +9,6 @@ export default function Header({quantity, updateQuantity}) {
     useEffect(() => {
         checkLoginStatus()
         cart()
-
     }, [])
 
     const checkLoginStatus = async () => {
@@ -88,12 +87,14 @@ export default function Header({quantity, updateQuantity}) {
                 <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-3 col-xs-8">
                         <div className="logo w-50">
-                            <a href="/index">                <img src="../assets/images/Untitled-2.png" alt="" /> </a>
+                            <a href="/index">
+                                <img src="../assets/images/Untitled-2.png" alt="" />
+                            </a>
                         </div>
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div className="search-bg">
-                            <input type="text" className="form-control" placeholder="Search Here" />
+                            <input type="text" className="form-control rounded-pill" placeholder="Search Here" />
                             <button type="Submit"><i className="fa fa-search"></i></button>
                         </div>
                     </div>

@@ -25,11 +25,11 @@ export default function Dashboard({updateQuantity}) {
       {/* End of Lastest Products */}
 
       {/* Best Seller */}
-      <BestSeller />
+      <BestSeller updateQuantity={updateQuantity}/>
       {/* End of Best Seller */}
 
       {/* Featured Products */}
-      <FeaturedProducts />
+      <FeaturedProducts updateQuantity={updateQuantity}/>
       {/* End of Featured Products */}
     </div>
   );

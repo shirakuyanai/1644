@@ -24,6 +24,7 @@ export default function CheckOut() {
     fetchCartData();
   }, []);
   useEffect(() => {
+    
     fetch("https://provinces.open-api.vn/api/p/")
       .then((response) => response.json())
       .then((data) => setProvinces(data))

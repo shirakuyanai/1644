@@ -33,10 +33,6 @@ function App() {
       <Route exact path="/brands" component={Brand} />
       <Route exact path="/brands/add" component={AddBrand} />
       <Route exact path="/brands/edit/:id" component={BrandEdit} />
-
-
-      
-
     </Switch>
    
    </>

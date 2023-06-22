@@ -35,7 +35,7 @@ const { viewBrands, addBrand, editBrand, deleteBrand, viewOneBrand} = require('.
 const { viewProducts, newProduct, editProduct, deleteProduct, oneProduct } = require('./operations/product')
 const { addToCart, viewCart, newQuantity, deleteSession, deleteProductCart } = require('./operations/cart')
 const connectToDatabase = require('./db');
-const { viewUser, viewOneUser, editUser  } = require('./operations/user');
+const { viewUser, viewOneUser, editUser, changeName } = require('./operations/user');
 const { viewOrders, newOrder, deleteOrder} = require('./operations/order');
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
@@ -59,6 +59,15 @@ connectToDatabase().then(() => {
     }
   });
 
+
+  app.post('/changeName', authenticateToken, async (req,res)=>{
+    const user = req.user
+    if (!user){
+      window.location.replace('/login')
+    }else{
+      await changeName(req,res)
+    }
+  })
   app.delete('/clearcart', async (req, res) =>{
     await deleteSession(req, res);
   })

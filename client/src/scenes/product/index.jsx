@@ -1,9 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function Product() {
+export default function Product({updateQuantity}) {
+  const { id } = useParams();
+  const [product, setProduct] = useState({})
   useEffect(() => {
-    changeTitle('Product Name'); // TODO: change the title to the name of the product
+    getProduct()
+    if (product){
+      changeTitle(product.name);
+    }
+    else{
+      changeTitle('Product');
+    }
+    
   });
+
+  const handleCartClick = async (productId) => {
+    try {
+    const response = await fetch(
+        `http://localhost:5000/addToCart/${productId}`, // Replace `productId` with the actual product ID
+        {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        }
+    );
+    if (response.ok) {
+        const cart = await response.json();
+        let quantity = 0
+        cart.forEach(element => {
+          quantity += element.quantity
+        }); 
+        updateQuantity(quantity)
+    }
+    } catch (ex) {
+    console.error(ex);
+    }
+};
+
+  const getProduct = async () => {
+    try{
+      const response = await fetch('http://localhost:5000/api/product/' + id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      if (response.ok)
+      {
+        const data = await response.json()
+        setProduct(data)
+      }
+    }
+    catch(ex){
+      console.error(ex);
+    }
+  }
 
   const changeTitle = data => {
     document.title = data;
@@ -17,200 +72,34 @@ export default function Product() {
             <div className="row">
               <div className="col-12 col-lg-6">
                 <h3 className="d-inline-block d-lg-none">
-                  LOWA Men’s Renegade GTX Mid Hiking Boots Review
+                  {product.name}
                 </h3>
                 <div className="col-12 d-flex justify-content-center">
                   <img
-                    src="../assets/images/products/prod-1.jpg"
+                    src={product.image}
                     className="product-image"
                     alt="Product Image"
                   />
-                </div>
-                <div className="col-12 product-image-thumbs">
-                  <div className="product-image-thumb active">
-                    <img
-                      src="../assets/images/products/prod-1.jpg"
-                      alt="Product Image"
-                    />
-                  </div>
-                  <div className="product-image-thumb">
-                    <img
-                      src="../assets/images/products/prod-2.jpg"
-                      alt="Product Image"
-                    />
-                  </div>
-                  <div className="product-image-thumb">
-                    <img
-                      src="../assets/images/products/prod-3.jpg"
-                      alt="Product Image"
-                    />
-                  </div>
-                  <div className="product-image-thumb">
-                    <img
-                      src="../assets/images/products/prod-4.jpg"
-                      alt="Product Image"
-                    />
-                  </div>
-                  <div className="product-image-thumb">
-                    <img
-                      src="../assets/images/products/prod-5.jpg"
-                      alt="Product Image"
-                    />
-                  </div>
                 </div>
               </div>
               <div className="col-12 col-lg-6">
                 <h3 className="my-3">
                   <strong>
-                    LOWA Men’s Renegade GTX Mid Hiking Boots Review
+                  {product.name}
                   </strong>
                 </h3>
                 <p>
-                  Raw denim you probably haven't heard of them jean shorts
-                  Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh
-                  dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.
+                {product.description}
                 </p>
-
-                <hr />
-                <h2>Colors</h2>
-                <div className="btn-group-toggle" data-toggle="buttons">
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="color_option"
-                      id="color_option_1"
-                      autocomplete="off"
-                    />
-                    Green
-                    <br />
-                    <i
-                      className="fas fa-circle fa-2x"
-                      style={{ color: 'green' }}
-                    ></i>
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="color_option"
-                      id="color_option_2"
-                      autocomplete="off"
-                    />
-                    Blue
-                    <br />
-                    <i
-                      className="fas fa-circle fa-2x"
-                      style={{ color: 'blue' }}
-                    ></i>
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="color_option"
-                      id="color_option_3"
-                      autocomplete="off"
-                    />
-                    Purple
-                    <br />
-                    <i
-                      className="fas fa-circle fa-2x"
-                      style={{ color: 'purple' }}
-                    ></i>
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="color_option"
-                      id="color_option_4"
-                      autocomplete="off"
-                    />
-                    Red
-                    <br />
-                    <i
-                      className="fas fa-circle fa-2x"
-                      style={{ color: 'red' }}
-                    ></i>
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="color_option"
-                      id="color_option_5"
-                      autocomplete="off"
-                    />
-                    Orange
-                    <br />
-                    <i
-                      className="fas fa-circle fa-2x"
-                      style={{ color: 'orange' }}
-                    ></i>
-                  </label>
-                </div>
-
-                <h2 className="mt-3">Size</h2>
-                <div className="btn-group-toggle" data-toggle="buttons">
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="model_option"
-                      id="model_option_1"
-                      autocomplete="off"
-                    />
-                    <span className="text-xl">S</span>
-                    <br />
-                    lgall
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="model_option"
-                      id="model_option_2"
-                      autocomplete="off"
-                    />
-                    <span className="text-xl">M</span>
-                    <br />
-                    Medium
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="model_option"
-                      id="model_option_3"
-                      autocomplete="off"
-                    />
-                    <span className="text-xl">L</span>
-                    <br />
-                    Large
-                  </label>
-                  <label className="btn btn-default text-center">
-                    <input
-                      type="radio"
-                      className="d-none"
-                      name="model_option"
-                      id="model_option_4"
-                      autocomplete="off"
-                    />
-                    <span className="text-xl">XL</span>
-                    <br />
-                    Xtra-Large
-                  </label>
-                </div>
                 <div className="mt-5">
-                  <h1 className="mb-0 h1 text-danger">$80.00</h1>
+                  <h1 className="mb-0 h1 text-danger">${product.price}</h1>
                   <h4 className="mt-0">
                     <lgall>Ex Tax: $80.00 </lgall>
                   </h4>
                 </div>
 
                 <div className="mt-12">
-                  <div className="btn btn-primary me-5 p-3">
+                  <div className="btn btn-primary me-5 p-3" onClick={() => handleCartClick(product._id)}>
                     <i className="fas fa-cart-plus fa-lg mr-2"></i>
                     Add to Cart
                   </div>
@@ -282,24 +171,7 @@ export default function Product() {
                   role="tabpanel"
                   aria-labelledby="product-desc-tab"
                 >
-                  {' '}
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                  vitae condimentum erat. Vestibulum ante ipsum primis in
-                  faucibus orci luctus et ultrices posuere cubilia Curae; Sed
-                  posuere, purus at efficitur hendrerit, augue elit lacinia
-                  arcu, a eleifend sem elit et nunc. Sed rutrum vestibulum est,
-                  sit amet cursus dolor fermentum vel. Suspendisse mi nibh,
-                  congue et ante et, commodo mattis lacus. Duis varius finibus
-                  purus sed venenatis. Vivamus varius metus quam, id dapibus
-                  velit mattis eu. Praesent et semper risus. Vestibulum erat
-                  erat, condimentum at elit at, bibendum placerat orci. Nullam
-                  gravida velit mauris, in pellentesque urna pellentesque
-                  viverra. Nullam non pellentesque justo, et ultricies neque.
-                  Praesent vel metus rutrum, tempus erat a, rutrum ante. Quisque
-                  interdum efficitur nunc vitae consectetur. Suspendisse
-                  venenatis, tortor non convallis interdum, urna mi molestie
-                  eros, vel tempor justo lacus ac justo. Fusce id enim a erat
-                  fringilla sollicitudin ultrices vel metus.{' '}
+                  {product.description}
                 </div>
                 <div
                   className="tab-pane fade"
@@ -307,18 +179,7 @@ export default function Product() {
                   role="tabpanel"
                   aria-labelledby="product-comments-tab"
                 >
-                  {' '}
-                  Vivamus rhoncus nisl sed venenatis luctus. Sed condimentum
-                  risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et
-                  finibus sem, ut commodo lectus. Cras eget neque dignissim,
-                  placerat orci interdum, venenatis odio. Nulla turpis elit,
-                  consequat eu eros ac, consectetur fringilla urna. Duis gravida
-                  ex pulvinar mauris ornare, eget porttitor enim vulputate.
-                  Mauris hendrerit, massa nec aliquam cursus, ex elit euilgod
-                  lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis
-                  lorem, dignissim a sapien eget, ultrices venenatis dolor.
-                  Curabitur vel turpis at magna elementum hendrerit vel id dui.
-                  Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum.{' '}
+                  {product.description}
                 </div>
                 <div
                   className="tab-pane fade"
@@ -326,22 +187,7 @@ export default function Product() {
                   role="tabpanel"
                   aria-labelledby="product-rating-tab"
                 >
-                  {' '}
-                  Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac
-                  habitasse platea dictumst. Aenean elementum leo augue, id
-                  fermentum risus efficitur vel. Nulla iaculis malesuada
-                  scelerisque. Praesent vel ipsum felis. Ut molestie, purus
-                  aliquam placerat sollicitudin, mi ligula euilgod neque, non
-                  bibendum nibh neque et erat. Etiam dignissim aliquam ligula,
-                  aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia
-                  lacinia. Morbi ac molestie lectus, vitae hendrerit nisl.
-                  Nullam metus odio, malesuada in vehicula at, consectetur nec
-                  justo. Quisque suscipit odio velit, at accumsan urna
-                  vestibulum a. Proin dictum, urna ut varius consectetur, sapien
-                  justo porta lectus, at mollis nisi orci et nulla. Donec
-                  pellentesque tortor vel nisl commodo ullamcorper. Donec varius
-                  massa at semper posuere. Integer finibus orci vitae vehicula
-                  placerat.{' '}
+                  {product.description}
                 </div>
               </div>
             </div>

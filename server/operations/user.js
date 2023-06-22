@@ -11,7 +11,7 @@ const viewOneUser = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: 'User not found' });
     }
     res.json(user);
 }
@@ -21,7 +21,7 @@ const editUser = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: 'User not found' });
     }
     user.firstname = req.body.firstname;
     user.lastname = req.body.lastname;
@@ -32,9 +32,19 @@ const editUser = async (req, res) => {
     res.json(user);
 }
 
+const changeName = async (req, res) => {
+    const user = await User.findById(req.user.id);
+    if (!user){
+        res.status(404).json({ error: 'User not found' });
+    }
+    user.firstname = req.body.firstname;
+    user.lastname = req.body.lastname;
+    await user.save();
+    res.json('Changed name successffully!')
+}
 
 
 
-module.exports = { viewUser, editUser, viewOneUser }
+module.exports = { viewUser, editUser, viewOneUser, changeName }
 
 
