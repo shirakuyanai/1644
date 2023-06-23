@@ -22,7 +22,7 @@ const BrandEdit = () => {
   console.log(id);
 
   const getdata = async () => {
-    const res = await fetch(`http://localhost:5000/api/brand/${id}`, {
+    const res = await fetch(`https://atn-toy-server.onrender.com/api/brand/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const BrandEdit = () => {
   
     const { name } = inpval;
   
-    const res2 = await fetch(`http://localhost:5000/brands/edit/${id}`, {
+    const res2 = await fetch(`https://atn-toy-server.onrender.com/brands/edit/${id}`, {
       method: 'PATCH', // Corrected method to PATCH
       headers: {
         'Content-Type': 'application/json'

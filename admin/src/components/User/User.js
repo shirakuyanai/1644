@@ -22,7 +22,7 @@ const User = () => {
 
     const getdata = async () => {
 
-        const res = await fetch("http://localhost:5000/viewuser", {
+        const res = await fetch("https://atn-toy-server.onrender.com/viewuser", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

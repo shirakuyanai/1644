@@ -17,7 +17,7 @@ export default function Head() {
   const checkLoginStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/checkLoginStatus', {
+      const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export default function Head() {
   const checkVerifyStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/checkVerifyStatus', {
+      const response = await fetch('https://atn-toy-server.onrender.com/checkVerifyStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export default function Head() {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(
-        'http://localhost:5000/resendVerificationEmail',
+        'https://atn-toy-server.onrender.com/resendVerificationEmail',
         {
           method: 'POST',
           headers: {

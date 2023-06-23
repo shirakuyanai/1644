@@ -9,7 +9,7 @@ const Brand = () => {
 
   const fetchBrandData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/brands", {
+      const res = await fetch("https://atn-toy-server.onrender.com/brands", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const Brand = () => {
 
   const deleteBrand = async (brandId) => {
     try {
-      const res = await fetch(`http://localhost:5000/brands/delete/${brandId}`, {
+      const res = await fetch(`https://atn-toy-server.onrender.com/brands/delete/${brandId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

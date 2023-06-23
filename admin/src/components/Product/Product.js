@@ -15,7 +15,7 @@ const Product = () => {
   // const { dltdata, setDLTdata } = useContext(deldata);
 
   const fetchProductData = async () => {
-    const res = await fetch("http://localhost:5000/products", {
+    const res = await fetch("https://atn-toy-server.onrender.com/products", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const Product = () => {
   };
   const deleteProduct = async (productId) => {
     try {
-      const res = await fetch(`http://localhost:5000/products/delete/${productId}`, {
+      const res = await fetch(`https://atn-toy-server.onrender.com/products/delete/${productId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const Product = () => {
     }
   };
   const fetchBrandData = async () => {
-    const res = await fetch("http://localhost:5000/brands", {
+    const res = await fetch("https://atn-toy-server.onrender.com/brands", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export default function Cart({ updateQuantity }) {
 
   const fetchCartData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/viewcart', {
+      const response = await fetch('https://atn-toy-server.onrender.com/viewcart', {
         method: 'GET',
         credentials: 'include',
       });
@@ -29,7 +29,7 @@ export default function Cart({ updateQuantity }) {
       if (confirmDelete) {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/cart/product/${itemId}`,
+            `https://atn-toy-server.onrender.com/api/cart/product/${itemId}`,
             {
               method: 'DELETE',
               credentials: 'include',
@@ -51,7 +51,7 @@ export default function Cart({ updateQuantity }) {
     } else {
       try {
         const response = await fetch(
-          `http://localhost:5000/quantity/${itemId}`,
+          `https://atn-toy-server.onrender.com/quantity/${itemId}`,
           {
             method: 'PUT',
             credentials: 'include',
@@ -98,7 +98,7 @@ export default function Cart({ updateQuantity }) {
 
   const handleClearCart = async () => {
     try {
-      const response = await fetch('http://localhost:5000/clearcart', {
+      const response = await fetch('https://atn-toy-server.onrender.com/clearcart', {
         method: 'DELETE',
         credentials: 'include',
       });

@@ -31,7 +31,7 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch('http://localhost:5000/brands');
+        const response = await fetch('https://atn-toy-server.onrender.com/brands');
         const data = await response.json();
         setBrands(data);
       } catch (error) {
@@ -60,7 +60,7 @@ const AddProduct = () => {
     formData.append('image', image);
 
     try {
-      const res = await fetch('http://localhost:5000/newproduct', {
+      const res = await fetch('https://atn-toy-server.onrender.com/newproduct', {
         method: 'POST',
         body: formData
       });

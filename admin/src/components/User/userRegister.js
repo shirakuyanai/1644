@@ -35,7 +35,7 @@ const Register = () => {
 
         const { name, email, work, add, mobile, desc, age } = inpval;
 
-        const res = await fetch("http://localhost:5000/newproduct", {
+        const res = await fetch("https://atn-toy-server.onrender.com/newproduct", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -27,7 +27,7 @@ const   Edit = () => {
   console.log(id);
 
   const getdata = async () => {
-    const res = await fetch(`http://localhost:5000/api/user/${id}`, {
+    const res = await fetch(`https://atn-toy-server.onrender.com/api/user/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const   Edit = () => {
   
     const { firstname, lastname, phone, email, role, verified } = inpval;
   
-    const res2 = await fetch(`http://localhost:5000/api/user/edit/${id}`, {
+    const res2 = await fetch(`https://atn-toy-server.onrender.com/api/user/edit/${id}`, {
       method: 'PATCH', // Corrected method to PATCH
       headers: {
         'Content-Type': 'application/json'

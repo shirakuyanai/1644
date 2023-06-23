@@ -26,7 +26,7 @@ export default function Cart() {
   const checkLoginStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/checkLoginStatus', {
+      const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export default function Cart() {
   const orders = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/user/${loggedIn._id}/orders`,
+        `https://atn-toy-server.onrender.com/api/user/${loggedIn._id}/orders`,
       );
       if (response.ok) {
         const ordersData = await response.json();
@@ -63,7 +63,7 @@ export default function Cart() {
   const handleChangePassword = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/changePassword', {
+      const response = await fetch('https://atn-toy-server.onrender.com/changePassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export default function Cart() {
   const handleChangeName = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/changeName', {
+      const response = await fetch('https://atn-toy-server.onrender.com/changeName', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default function Cart() {
   const handleChangeEmail = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/changeEmail', {
+      const response = await fetch('https://atn-toy-server.onrender.com/changeEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export default function Cart() {
   const [productData, setProductData] = useState([]);
   const fetchProductData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/products', {
+      const res = await fetch('https://atn-toy-server.onrender.com/products', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const EditProduct = () => {
   console.log(id);
 
   const getdata = async () => {
-    const res = await fetch(`http://localhost:5000/api/product/${id}`, {
+    const res = await fetch(`https://atn-toy-server.onrender.com/api/product/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch('http://localhost:5000/brands');
+        const response = await fetch('https://atn-toy-server.onrender.com/brands');
         const data = await response.json();
         setBrands(data);
       } catch (error) {
@@ -70,7 +70,7 @@ const EditProduct = () => {
 
     const { name, brand, price, stock, description, image } = inpval;
 
-    const res = await fetch(`http://localhost:5000/products/edit/${id}`, {
+    const res = await fetch(`https://atn-toy-server.onrender.com/products/edit/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

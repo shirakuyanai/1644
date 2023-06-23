@@ -14,7 +14,7 @@ export default function Header({quantity, updateQuantity}) {
     const checkLoginStatus = async () => {
         try {
             const token = localStorage.getItem('token')
-            const response = await fetch('http://localhost:5000/checkLoginStatus', {
+            const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export default function Header({quantity, updateQuantity}) {
         try {
             
             const response = await fetch(
-              `http://localhost:5000/viewcart`, // Replace `productId` with the actual product ID
+              `https://atn-toy-server.onrender.com/viewcart`, // Replace `productId` with the actual product ID
               {
                 method: "GET",
                 headers: {
@@ -63,7 +63,7 @@ export default function Header({quantity, updateQuantity}) {
     }
     const handleLogout = async () => {
         try {
-            const reponse = await fetch('http://localhost:5000/logout', {
+            const reponse = await fetch('https://atn-toy-server.onrender.com/logout', {
                 method: 'POST',
                 credentials: 'include',
             })

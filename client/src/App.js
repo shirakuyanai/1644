@@ -24,7 +24,7 @@ export default function App() {
     try {
         
         const response = await fetch(
-          `http://localhost:5000/viewcart`, // Replace `productId` with the actual product ID
+          `https://atn-toy-server.onrender.com/viewcart`, // Replace `productId` with the actual product ID
           {
             method: "GET",
             headers: {

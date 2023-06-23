@@ -13,7 +13,7 @@ const AddBrand = () => {
   const addBrand = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/newbrand', {
+      const response = await fetch('newbrand', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

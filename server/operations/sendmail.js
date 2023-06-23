@@ -36,7 +36,7 @@ const sendEmail = async (recipient, user) => {
         from: process.env.GMAIL_USER,
         to: recipient,
         subject: 'Noreply',
-        text: 'Please click here to verify your account: http://localhost:5000/verify/'+ token,
+        text: 'Please click here to verify your account: https://atn-toy-server.onrender.com/verify/'+ token,
     }
     mailTransporter.sendMail(details,(err) => {
         if (err) {
