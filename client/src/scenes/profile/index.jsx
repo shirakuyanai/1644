@@ -466,45 +466,9 @@ export default function Cart() {
                     <div key={order._id}>
                       <hr className="mt-0 mb-4 border" />
                       <div className="row pt-1">
-                        <div className="col-6">
-                          <h2>Status</h2>
+                      <h2>Status</h2>
+                        <div className="d-flex justify-content-between">
                           <p className="text-muted">{order.status}</p>
-                        </div>
-                        <div className="col-6">
-                          <h2>Address</h2>
-                          <p className="text-muted">{order.address}</p>
-                        </div>
-                        <div className="col-12">
-                          <h2>Products</h2>
-<div className="row">
-                          {order.products.map(product => (
-                           
-                              <div className="col-sm-6" key={product._id}>
-                                <div className="card">
-                                  <div className="card-body">
-                                  
-                                    <h5 className='card-title'>
-                                      Name: {getProductName(product.productId)}
-                                    </h5>
-                                    <img
-                                      src={getProductImage(product.productId)}
-                                      alt={getProductName(product.productId)}
-                                      style={{
-                                        width: '100px',
-                                        height: '100px',
-                                      }}
-                                    />
-                                    <p>Quantity: {product.quantity}</p>
-                                    <p>Subtotal: {product.total}</p>
-                                  
-                                  </div>
-                                </div>
-                              </div>
-                          
-                          ))}
-                          </div>
-                          <h3>Shipping: 10$</h3>
-                          <h3> Tax: 5%</h3>
                           <h1>TOTAL: {order.total}</h1>
                         </div>
                       </div>

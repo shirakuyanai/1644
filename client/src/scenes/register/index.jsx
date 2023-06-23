@@ -143,11 +143,11 @@ export default function Register() {
           <div className="checkbox mb-3">
             <label>
               <input type="checkbox" name="_remember_me" /> By signing up to our
-              website, you haved agreed to our <a href="#">Privacy Policies</a>
+              website, you haved agreed to our <a href="#"  style={{color: '#a71400'}}>Privacy Policies</a>
             </label>
           </div>
 
-          <input type="submit" value="Register" />
+          <input type="submit" value="Register" style={{backgroundColor: '#a71400'}} />
         </form>
         <br />
       </div>

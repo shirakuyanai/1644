@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Features() {
   return (
-    <div className="bg-default pdt40 pdb40">
+    <div className="bg-default pdt40 pdb40" style={{backgroundColor: '#a71400'}}>
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">

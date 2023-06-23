@@ -45,7 +45,7 @@ app.use(session({
 }))
 
 app.use(cors({
-  origin: ['https://atntoy.online', 'https://admin.atntoy.online'],
+  origin: ['https://atntoys.online', 'https://admin.atntoys.online'],
   credentials: true,
 }));
 

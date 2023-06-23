@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(120deg,#28aecd, #207ca7);
+  background: linear-gradient(120deg,#a71400, #4b0900);
   height: 100vh;
   overflow: hidden;
 }
@@ -61,13 +61,13 @@
   left: 0;
   width: 0%;
   height: 2px;
-  background: #2691d9;
+  background: #a71400;
   transition: .5s;
 }
 .login-scene .txt_field input:focus ~ label,
 .login-scene .txt_field input:valid ~ label{
   top: -5px;
-  color: #2691d9;
+  color: #a71400;
 }
 .login-scene .txt_field input:focus ~ span::before,
 .login-scene .txt_field input:valid ~ span::before{
@@ -87,7 +87,7 @@
   outline: none;
 }
 .login-scene input[type="submit"]:hover{
-  border-color: #207ca7;
+  border-color: #4b0900;
   transition: .5s;
 }
 .login-scene .signup_link{
@@ -97,7 +97,7 @@
   color: #666666;
 }
 .login-scene .signup_link a{
-  color: #2691d9;
+  color: #a71400;
   text-decoration: none;
 }
 .login-scene .signup_link a:hover{

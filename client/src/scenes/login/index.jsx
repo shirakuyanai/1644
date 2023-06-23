@@ -115,7 +115,7 @@ export default function Login() {
               <input type="checkbox" name="_remember_me" /> Remember me
             </label>
           </div>
-          <input type="submit" value="Login" />
+          <input type="submit" value="Login" style={{backgroundColor: '#a71400'}}/>
           <div className="signup_link">
             Not a member? <a href="/register">Click here to register</a>
           </div>

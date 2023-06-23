@@ -130,11 +130,8 @@ export default function LatestProducts({ updateQuantity }) {
                             <span className="offer-price">20% off</span>
                           </div>
                           <div className="shopping-btn">
-                            <a className="product-btn btn-like">
-                              <i className="fa fa-heart"></i>
-                            </a>
                             <a
-                              className="product-btn btn-cart"
+                              className="product-btn btn-cart bg-transparent text-dark"
                               onClick={() => handleCartClick(product._id)}
                             >
                               <i className="fa fa-shopping-cart"></i>

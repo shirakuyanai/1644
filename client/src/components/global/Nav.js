@@ -38,7 +38,7 @@ export default function Nav() {
   };
 
   return (
-    <div className="navigation">
+    <div className="navigation" style={{backgroundColor: '#a71400'}}>
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -28,9 +28,6 @@ export default function Dashboard({updateQuantity}) {
       <BestSeller updateQuantity={updateQuantity}/>
       {/* End of Best Seller */}
 
-      {/* Featured Products */}
-      <FeaturedProducts updateQuantity={updateQuantity}/>
-      {/* End of Featured Products */}
     </div>
   );
 }

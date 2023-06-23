@@ -101,8 +101,7 @@ export default function BestSeller({updateQuantity}){
                                                 <span className="offer-price">20%off</span>
                                             </div>
                                             <div className="shopping-btn">
-                                                <a href={`/product/${product._id}`} className="product-btn btn-like"><i className="fa fa-heart"></i></a>
-                                                <a href={`/product/${product._id}`} onClick={() => handleCartClick(product._id)} className="product-btn btn-cart"><i className="fa fa-shopping-cart"></i></a>
+                                                <a href={`/product/${product._id}`} onClick={() => handleCartClick(product._id)} className="product-btn btn-cart bg-transparent text-dark"><i className="fa fa-shopping-cart"></i></a>
                                             </div>
                                         </div>
                                     </div>
