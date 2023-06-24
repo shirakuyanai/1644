@@ -11,13 +11,13 @@ export default function Nav() {
   }, []);
 
   const getBrand = () => {
-    fetch('https://atn-toy-server.onrender.com/brands')
+    fetch('http://localhost:5000/brands')
       .then(res => res.json())
       .then(data => setBrands(data))
       .catch(err => console.log(err));
   };
   const getProducts = () => {
-    fetch('https://atn-toy-server.onrender.com/products')
+    fetch('http://localhost:5000/products')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.log(err));

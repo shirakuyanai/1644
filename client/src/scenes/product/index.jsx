@@ -18,7 +18,7 @@ export default function Product({updateQuantity}) {
   const handleCartClick = async (productId) => {
     try {
     const response = await fetch(
-        `https://atn-toy-server.onrender.com/addToCart/${productId}`, // Replace `productId` with the actual product ID
+        `http://localhost:5000/addToCart/${productId}`, // Replace `productId` with the actual product ID
         {
         method: "POST",
         headers: {
@@ -42,7 +42,7 @@ export default function Product({updateQuantity}) {
 
   const getProduct = async () => {
     try{
-      const response = await fetch('https://atn-toy-server.onrender.com/api/product/' + id, {
+      const response = await fetch('http://localhost:5000/api/product/' + id, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

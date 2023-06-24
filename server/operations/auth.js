@@ -47,7 +47,9 @@ const compareHash = (password_1, password_2) => {
                     email: foundUser.email,
                     firstname: foundUser.firstname,
                     lastname: foundUser.lastname,
-                    phone: foundUser.phone
+                    phone: foundUser.phone,
+                    role: foundUser.role,
+                    verified: foundUser.verified
                 })
                 res.json(user);
             }else{
@@ -59,8 +61,11 @@ const compareHash = (password_1, password_2) => {
     }
 
 
-    const generateToken = (userId) => {
-        const payload = { id: userId };
+    const generateToken = (user) => {
+        const payload = {
+            id: user._id,
+            role: user.role
+        };
         const secretKey = process.env.SESSION_SECRET_KEY;
         const options = { expiresIn: '24h' };
     
@@ -89,15 +94,13 @@ const compareHash = (password_1, password_2) => {
         const correctPassword = await compareHash(req.body.password, user.password);
         if (user.email === req.body.email && correctPassword) {
 
-            const token = generateToken(user._id);
-            console.log('Logged in successfully!');
+            const token = generateToken(user);
             correctCredentials = true;
             res.json({ user, token });
           }
       }
       if (!correctCredentials) {
-        console.log('Invalid username or password');
-        return res.json('Invalid username or password');
+        return res.status(401).json('Invalid username or password');
       }
     } catch (error) {
       console.error(error);

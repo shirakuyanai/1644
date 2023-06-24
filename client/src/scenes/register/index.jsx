@@ -29,7 +29,7 @@ export default function Register() {
       ) {
         alert('Please fill out all the required fields');
       } else {
-        const response = await fetch('https://atn-toy-server.onrender.com/register', {
+        const response = await fetch('http://localhost:5000/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

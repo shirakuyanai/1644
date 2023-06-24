@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './scenes/layouts/layout';
 import Index from './scenes/index/index';
 import Login from './scenes/login';
@@ -8,8 +9,9 @@ import Cart from './scenes/cart';
 import Checkout from './scenes/checkout';
 import Register_Success from './scenes/register_success';
 import Profile from './scenes/profile';
+import Order_Detail from './scenes/Order_Detail';
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
 
 export default function App() {
   const [cartQuantity, setCartQuantity] = useState(0)
@@ -24,7 +26,7 @@ export default function App() {
     try {
         
         const response = await fetch(
-          `https://atn-toy-server.onrender.com/viewcart`, // Replace `productId` with the actual product ID
+          `http://localhost:5000/viewcart`, // Replace `productId` with the actual product ID
           {
             method: "GET",
             headers: {
@@ -57,6 +59,7 @@ export default function App() {
             <Route path="/product/:id" element={<Product updateQuantity={updateQuantity}/>} />
             <Route path="/cart" element={<Cart updateQuantity={updateQuantity}/>} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/viewOrder/:id" element={<Order_Detail />} />
             <Route path="/register_success" element={<Register_Success />} />
           </Route>
           <Route path="/login" element={<Login />} />

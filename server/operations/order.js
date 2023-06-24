@@ -119,6 +119,24 @@ const viewUserOrders = async (req, res) => {
 };
 
 
+const viewOrder = async (req,res) => {
+  if (req.user){
+    const user = req.user
+    const order = await Order.findOne({_id: req.params.id})
+    const items = await OrderDetail.find({order: req.params.id})
+    
+    if (order && items &&items.length > 0) { 
+      res.json({order: order, items: items})
+    }
+    else{
+      res.status(404).json({})
+    }
+  }
+  else{
+    res.status(401).json({})
+  }
+}
 
 
-module.exports = { viewOrders, newOrder, deleteOrder, viewUserOrders };
+
+module.exports = { viewOrders, newOrder, deleteOrder, viewUserOrders, viewOrder };

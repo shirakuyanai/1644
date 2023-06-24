@@ -34,7 +34,7 @@ export default function CheckOut() {
   const [brandData, setBrandData] = useState([]);
 
   const fetchBrandData = async () => {
-    const res = await fetch("https://atn-toy-server.onrender.com/brands", {
+    const res = await fetch("http://localhost:5000/brands", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export default function CheckOut() {
   };
   const fetchCartData = async () => {
     try {
-      const response = await fetch('https://atn-toy-server.onrender.com/viewcart', {
+      const response = await fetch('http://localhost:5000/viewcart', {
         method: 'GET',
         credentials: 'include',
       });
@@ -66,7 +66,7 @@ export default function CheckOut() {
   const checkLoginStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
+      const response = await fetch('http://localhost:5000/checkLoginStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function CheckOut() {
         user: loggedIn._id,
         address: address,
       };
-      const response = await fetch('https://atn-toy-server.onrender.com/neworder', {
+      const response = await fetch('http://localhost:5000/neworder', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

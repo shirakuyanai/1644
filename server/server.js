@@ -36,7 +36,7 @@ const { viewProducts, newProduct, editProduct, deleteProduct, oneProduct } = req
 const { addToCart, viewCart, newQuantity, deleteSession, deleteProductCart } = require('./operations/cart')
 const connectToDatabase = require('./db');
 const { viewUser, viewOneUser, editUser, changeName } = require('./operations/user');
-const { viewOrders, newOrder, deleteOrder, viewUserOrders} = require('./operations/order');
+const { viewOrders, newOrder, deleteOrder, viewUserOrders, viewOrder} = require('./operations/order');
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
@@ -45,7 +45,7 @@ app.use(session({
 }))
 
 app.use(cors({
-  origin: ['https://atntoys.online', 'https://admin.atntoys.online'],
+  origin: ['http://localhost:3000', 'https://admin.atntoys.online'],
   credentials: true,
 }));
 
@@ -85,8 +85,13 @@ connectToDatabase().then(() => {
   app.put('/quantity/:id', async (req, res) => {
    await newQuantity(req, res);
   })
-  app.get('/brands', async (req, res) => {
-    await viewBrands(req, res)
+  app.get('/brands', authenticateToken, async (req, res) => {
+    if (req.user.role === 2){
+      await viewBrands(req, res)
+    }
+    else{
+      res.status(401).json('Insufficient permissions.')
+    }
   })
   app.get('/api/brand/:id', async (req, res) => {
     await viewOneBrand(req, res)
@@ -204,5 +209,10 @@ connectToDatabase().then(() => {
   app.get('/api/user/:id/orders', async (req, res) => {
     await viewUserOrders (req,res)
   })
+
+  app.get('/viewOrder/:id', authenticateToken, async (req, res) => {
+    await viewOrder(req,res);
+  })
+
   app.listen(PORT, () => console.log(`listening on port ${PORT}`))
 })
