@@ -27,7 +27,7 @@ export default function Layout() {
     <div className="wrapper">
         {/* <!-- Preloader --> */}
         <div className="preloader flex-column justify-content-center align-items-center">
-            <img className="animation__wobble" src="./assets/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60"/>
+            <img className="animation__wobble" src="/assets/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60"/>
         </div>
 
         {/* <!-- Navbar --> */}
@@ -57,7 +57,7 @@ export default function Layout() {
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* <!-- Brand Logo --> */}
             <a href="/index" className="brand-link">
-                <img src="./assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{opacity: '.8'}}/>
+                <img src="/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{opacity: '.8'}}/>
                 <span className="brand-text font-weight-light">Admin Dashboard</span>
             </a>
 
@@ -66,7 +66,7 @@ export default function Layout() {
             {/* <!-- Sidebar user panel (optional) --> */}
                 <div className="user-panel pb-3 mb-3 d-flex">
                     <div className="image">
-                        <img src="./assets/dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image"/>
+                        <img src="/assets/dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image"/>
                     </div>
                     <div className="info">
                         <a href="#" className="d-block">User name</a>
@@ -90,9 +90,8 @@ export default function Layout() {
                     <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     {/* <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library --> */}
-                        {/* Products */}
                         <li className="nav-item">
-                            <a href="pages/widgets.html" className="nav-link">
+                            <a href="/products" className="nav-link">
                             <p>
                                 Products
                             </p>
@@ -106,14 +105,14 @@ export default function Layout() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a href="pages/widgets.html" className="nav-link">
+                            <a href="/accounts" className="nav-link">
                             <p>
                                 Accounts
                             </p>
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a href="pages/widgets.html" className="nav-link">
+                            <a href="/orders" className="nav-link">
                             <p>
                                 Orders
                             </p>
@@ -135,7 +134,7 @@ export default function Layout() {
         </aside>
 
 
-        <Outlet />
+        <div className="content-wrapper"><Outlet /></div>
     
         
     </div>

@@ -13,25 +13,35 @@ const viewOneBrand = async (req,res) => {
   res.json(brand)
 }
 const addBrand = async (req,res) => {
-    const brand = new Brand(
+    try{
+      const brand = new Brand(
         {
             name: req.body.name
         }
-    )
-    brand.save()
-    res.json(brand)
+      )
+      brand.save()
+      res.json(brand)
+    }
+    catch(err){
+      res.status(404).json(err)
+    }
 }
 
 const editBrand = async (req,res) => {
-    const id = req.params.id;
-    const brand = await Brand.findById(id);
-    
-    if (!brand) {
-    return res.status(404).json({ error: 'Brand not found' });
+    try{
+      const id = req.params.id;
+      const brand = await Brand.findById(id);
+      
+      if (!brand) {
+      return res.status(404).json({ error: 'Brand not found' });
+      }
+      brand.name = req.body.name;
+      await brand.save();
+      res.json(brand);
     }
-    brand.name = req.body.name;
-    await brand.save();
-    res.json(brand);
+    catch(err){
+      res.status(400).json(err);
+    }
 }
 
 const deleteBrand = async (req, res) => {

@@ -9,7 +9,7 @@ export default function Index(){
         document.title = data;
       };
   return (
-    <div className="content-wrapper">
+    <div>
             {/* <!-- Content Header (Page header) --> */}
             <div className="content-header">
                 <div className="container-fluid">

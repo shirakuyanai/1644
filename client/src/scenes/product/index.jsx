@@ -89,7 +89,7 @@ export default function Product({updateQuantity}) {
                   </strong>
                 </h3>
                 <p>
-                {product.description}
+                <p>({product.stock} in stock)</p>
                 </p>
                 <div className="mt-5">
                   <h1 className="mb-0 h1 text-danger">${product.price}</h1>
@@ -170,24 +170,24 @@ export default function Product({updateQuantity}) {
                   id="product-desc"
                   role="tabpanel"
                   aria-labelledby="product-desc-tab"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
                 >
-                  {product.description}
                 </div>
                 <div
                   className="tab-pane fade"
                   id="product-comments"
                   role="tabpanel"
                   aria-labelledby="product-comments-tab"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
                 >
-                  {product.description}
                 </div>
                 <div
                   className="tab-pane fade"
                   id="product-rating"
                   role="tabpanel"
                   aria-labelledby="product-rating-tab"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
                 >
-                  {product.description}
                 </div>
               </div>
             </div>

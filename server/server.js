@@ -45,7 +45,7 @@ app.use(session({
 }))
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://admin.atntoys.online'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://admin.atntoys.online', 'https://atntoys.online'],
   credentials: true,
 }));
 
@@ -85,13 +85,8 @@ connectToDatabase().then(() => {
   app.put('/quantity/:id', async (req, res) => {
    await newQuantity(req, res);
   })
-  app.get('/brands', authenticateToken, async (req, res) => {
-    if (req.user.role === 2){
-      await viewBrands(req, res)
-    }
-    else{
-      res.status(401).json('Insufficient permissions.')
-    }
+  app.get('/brands', async (req, res) => {
+    await viewBrands(req, res)
   })
   app.get('/api/brand/:id', async (req, res) => {
     await viewOneBrand(req, res)
@@ -100,15 +95,23 @@ connectToDatabase().then(() => {
     await searchProductBrand(req, res)
   })
 
-  app.post('/newbrand',  async (req, res) => {
-    await addBrand(req, res)
+  app.post('/newbrand',authenticateToken,  async (req, res) => {
+    if (req.user.role === 2){
+      await addBrand(req, res)
+    } else {
+      res.status(401).json('Insufficient permissions.')
+    }
   })
 
-  app.patch('/brands/edit/:id', async (req, res) => {
-    await editBrand(req, res)
+  app.put('/brands/edit/:id',authenticateToken, async (req, res) => {
+    if (req.user.role === 2){
+      await editBrand(req, res)
+    } else {
+      res.status(401).json('Insufficient permissions.')
+    }
   });
 
-  app.delete('/brands/delete/:id',  async (req, res) => {
+  app.delete('/brands/delete/:id', authenticateToken,  async (req, res) => {
     await deleteBrand(req, res)
   });
 
@@ -123,16 +126,28 @@ connectToDatabase().then(() => {
     await oneProduct(req, res)
   })
 
-  app.post('/newproduct', upload.single('image'), async (req, res) => {
-    await newProduct(req, res)
+  app.post('/newproduct', authenticateToken, upload.single('image'), async (req, res) => {
+    if (req.user.role === 2){
+      await newProduct(req, res)
+    }else{
+      res.status(401).json('Insufficient permissions.')
+    }
   });
 
-  app.patch('/products/edit/:id', upload.single('image'), async (req, res) => {
-    await editProduct(req, res)
+  app.put('/products/edit/:id', authenticateToken, upload.single('image'), async (req, res) => {
+    if (req.user.role === 2){
+      await editProduct(req, res)
+    }else{
+      res.status(401).json('Insufficient permissions.')
+    }
   });
 
-  app.delete('/products/delete/:id', async (req, res) => {
-    await deleteProduct(req, res)
+  app.delete('/products/delete/:id', authenticateToken, async (req, res) => {
+    if (req.user.role === 2){
+      await deleteProduct(req, res)
+    }else{
+      res.status(401).json('Insufficient permissions.')
+    }
   })
 
   // Cart
