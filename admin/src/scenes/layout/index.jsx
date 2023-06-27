@@ -7,6 +7,7 @@ export default function Layout() {
     useEffect(() => {
         if (loading) {
             checkLoginStatus();
+            setLoading(false)
         }
         else{
             if (Object.keys(loggedIn).length === 0 || loggedIn.role === 1){
