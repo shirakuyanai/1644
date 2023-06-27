@@ -45,7 +45,7 @@ app.use(session({
 }))
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://admin.atntoys.online', 'https://atntoys.online'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://admin.atntoy.online', 'https://atntoy.online'],
   credentials: true,
 }));
 
