@@ -24,7 +24,6 @@ export default function BestSeller({updateQuantity}){
             breakpoint: {max: 460, min: 0},
             items: 1
         },
-
     }
 
 
@@ -40,8 +39,10 @@ export default function BestSeller({updateQuantity}){
             credentials: "include",
             }
         );
+        const data = await response.json();
+        alert(data.message)
         if (response.ok) {
-            const cart = await response.json();
+            const cart = data.cart
             let quantity = 0
             cart.forEach(element => {
               quantity += element.quantity
@@ -95,13 +96,13 @@ export default function BestSeller({updateQuantity}){
                                     <div className="product-block">
                                         <div className="product-img"><a href={`/product/${product._id}`}><img src={product.image} alt=""/></a></div>
                                         <div className="product-content">
-                                            <h5><a href={`/product/${product._id}`} className="product-title">{product.name} <strong>({brands.map(brand => brand._id === product.brand ? brand.name : '')})</strong></a></h5>
-                                            <div className="product-meta"><a href={`/product/${product._id}`} className="product-price">${(product.price/100*80).toFixed(2)}</a>
-                                                <a href={`/product/${product._id}`} className="discounted-price">${product.price}</a>
+                                            <h5><a className="product-title">{product.name} <strong>({brands.map(brand => brand._id === product.brand ? brand.name : '')})</strong></a></h5>
+                                            <div className="product-meta"><a className="product-price">${(product.price/100*80).toFixed(2)}</a>
+                                                <a className="discounted-price">${product.price}</a>
                                                 <span className="offer-price">20%off</span>
                                             </div>
                                             <div className="shopping-btn">
-                                                <a href={`/product/${product._id}`} onClick={() => handleCartClick(product._id)} className="product-btn btn-cart bg-transparent text-dark"><i className="fa fa-shopping-cart"></i></a>
+                                                <a onClick={() => handleCartClick(product._id)} className="product-btn btn-cart bg-transparent text-dark"><i className="fa fa-shopping-cart"></i></a>
                                             </div>
                                         </div>
                                     </div>

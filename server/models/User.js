@@ -25,12 +25,18 @@ const UserSchema = new Schema({
         type: Number,
         default: 1,
         // 1: customer
-        // 2: admin
-    
+        // 2: staff
+        // 3: manager
     },
     verified: {
         type: Boolean,
         default: false
+    },
+    status: {
+        type: Boolean,
+        default: true
+        // true: active
+        // false: suspended
     }
 })
 

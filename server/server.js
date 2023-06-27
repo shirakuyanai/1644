@@ -35,8 +35,8 @@ const { viewBrands, addBrand, editBrand, deleteBrand, viewOneBrand, viewProductB
 const { viewProducts, newProduct, editProduct, deleteProduct, oneProduct } = require('./operations/product')
 const { addToCart, viewCart, newQuantity, deleteSession, deleteProductCart } = require('./operations/cart')
 const connectToDatabase = require('./db');
-const { viewUser, viewOneUser, editUser, changeName } = require('./operations/user');
-const { viewOrders, newOrder, deleteOrder, viewUserOrders, viewOrder} = require('./operations/order');
+const { viewUser, viewOneUser, editUser, changeName, changeUserStatus, viewAddressesByUser, changeRole, getAddresses, addressById } = require('./operations/user');
+const { viewOrders, newOrder, deleteOrder, viewUserOrders, viewOrder, changeOrderStatus, details} = require('./operations/order');
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
@@ -65,7 +65,7 @@ connectToDatabase().then(() => {
   app.post('/changeName', authenticateToken, async (req,res)=>{
     const user = req.user
     if (!user){
-      window.location.replace('/login')
+      res.status(401).json('No user logged in')
     }else{
       await changeName(req,res)
     }
@@ -83,70 +83,125 @@ connectToDatabase().then(() => {
     await checkLoginStatus(req, res)
   });
   app.put('/quantity/:id', async (req, res) => {
-   await newQuantity(req, res);
+    await newQuantity(req, res);
   })
   app.get('/brands', async (req, res) => {
-    await viewBrands(req, res)
-  })
-  app.get('/api/brand/:id', async (req, res) => {
-    await viewOneBrand(req, res)
+    const user = req.user
+    if (user && user.role !== 1){
+      res.status(401).json('No user logged in')
+    }else{
+      await viewBrands(req, res)
+    }
   })
   app.get('/search', async (req, res) => {
-    await searchProductBrand(req, res)
+    const user = req.user
+    if (user && user.role !== 1){
+      res.status(401).json('No user logged in')
+    }else{
+      await searchProductBrand(req, res)
+    }
   })
 
   app.post('/newbrand',authenticateToken,  async (req, res) => {
-    if (req.user.role === 2){
-      await addBrand(req, res)
-    } else {
-      res.status(401).json('Insufficient permissions.')
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 2 || req.user.role === 3){
+        await addBrand(req, res)
+      } else {
+        res.status(401).json('Insufficient permissions.')
+      }
     }
   })
 
   app.put('/brands/edit/:id',authenticateToken, async (req, res) => {
-    if (req.user.role === 2){
-      await editBrand(req, res)
-    } else {
-      res.status(401).json('Insufficient permissions.')
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 2 || req.user.role === 3){
+        await editBrand(req, res)
+      } else {
+        res.status(401).json('Insufficient permissions.')
+      }
     }
   });
 
   app.delete('/brands/delete/:id', authenticateToken,  async (req, res) => {
-    await deleteBrand(req, res)
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 3){
+        await deleteBrand(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
+    }
   });
 
   // products
   app.get('/productsbybrand/:id', async (req, res) => {
-    await viewProductBrand(req, res)
+    const user = req.user
+    if (user && user.role !== 1){
+      res.status(401).json('No user logged in')
+    }else{
+      await viewProductBrand(req, res)
+    }
   })
   app.get('/products', async (req, res) => {
-    await viewProducts(req, res)
+    const user = req.user
+    if (user && user.role !== 1){
+      res.status(401).json('No user logged in')
+    }else{
+      await viewProducts(req, res)
+    }
   })
   app.get('/api/product/:id', async (req, res) => {
-    await oneProduct(req, res)
+    const user = req.user
+    if (user && user.role !== 1){
+      res.status(401).json('No user logged in')
+    }else{
+      await oneProduct(req, res)
+    }
   })
 
   app.post('/newproduct', authenticateToken, upload.single('image'), async (req, res) => {
-    if (req.user.role === 2){
-      await newProduct(req, res)
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
     }else{
-      res.status(401).json('Insufficient permissions.')
-    }
+      if (req.user.role === 2 || req.user.role === 3){
+        await newProduct(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }}
   });
 
   app.put('/products/edit/:id', authenticateToken, upload.single('image'), async (req, res) => {
-    if (req.user.role === 2){
-      await editProduct(req, res)
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
     }else{
-      res.status(401).json('Insufficient permissions.')
+      if (req.user.role === 2 || req.user.role === 3){
+        await editProduct(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
     }
   });
 
   app.delete('/products/delete/:id', authenticateToken, async (req, res) => {
-    if (req.user.role === 2){
-      await deleteProduct(req, res)
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
     }else{
-      res.status(401).json('Insufficient permissions.')
+      if (req.user.role === 3){
+        await deleteProduct(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
     }
   })
 
@@ -160,16 +215,44 @@ connectToDatabase().then(() => {
   });
 
   // Order
-  app.get('/orders', async (req, res) => {
-    await viewOrders(req, res)
+  app.get('/orders',authenticateToken, async (req, res) => {
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 2 || req.user.role === 3){
+        await viewOrders(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
+    }
   });
 
-  app.post('/neworder', async (req, res) => {
-    await newOrder(req, res);
+  app.post('/neworder', authenticateToken, async (req, res) => {
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 1){
+        await newOrder(req, res);
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
+    }
   });
-  app.delete('/deleteallorders', async (req, res) => {
-    await deleteOrder(req, res);
-  });
+
+  app.post('/changeOrderStatus/:id', authenticateToken, async(req, res) => {
+    if (req.user){
+      if (req.user.role === 2 || req.user.role === 3){
+        await changeOrderStatus(req, res);
+      }
+      else{
+        res.status(401).json('Insufficient permissions.')
+      }
+    }else{
+      res.status(401).json('No user logged in')
+    }
+  })
 
   // User login
 
@@ -211,22 +294,106 @@ connectToDatabase().then(() => {
   app.get('/verify/:token', async (req, res) => {
     await verifyUser(req, res)
   })
-  app.get('/viewUser', async (req, res) => {
-    await viewUser(req, res)
+
+  // Users
+
+  app.get('/viewUser', authenticateToken, async (req, res) => {
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 2 || req.user.role === 3){
+        await viewUser(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
+    }
   })
 
-  app.get('/api/user/:id', async (req, res) => {
-    await viewOneUser(req, res)
+  app.get('/api/user/:id', authenticateToken, async (req, res) => {
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      await viewOneUser(req, res)
+    }
   })
-  app.patch('/api/user/edit/:id', async (req, res) => {
-    await editUser(req, res)
+
+  app.post('/changeUserStatus/:id', authenticateToken, async (req,res) => {
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      if (req.user.role === 2 || req.user.role === 3){
+        await changeUserStatus(req, res)
+      }else{
+        res.status(401).json('Insufficient permissions.')
+      }
+    }
   })
-  app.get('/api/user/:id/orders', async (req, res) => {
-    await viewUserOrders (req,res)
+
+  app.get('/addresses/:id', authenticateToken, async (req, res) => {
+    if (req.user){
+      if (req.user.role !== 1){
+        await viewAddressesByUser(req,res)
+      }else{
+        res.status(401).json('Insufficient permissions')
+      }
+    }else{
+      res.status(401).json('No user logged in')
+    }
+  })
+
+  app.get('/addresses', authenticateToken, async (req, res) => {
+    await getAddresses(req,res)
+  })
+
+  app.post('/changeRole/:id', authenticateToken, async (req, res) => {
+    if (req.user){
+      if (req.user.role === 3){
+        await changeRole(req,res)
+      }else{
+        res.status(401).json('Insufficient permissions')
+      }
+    }else{
+      res.status(401).json('No user logged in')
+    }
+  })
+
+  app.get('/addressById/:addressId', authenticateToken, async(req,res) => {
+    if (req.user){
+      if (req.user.role === 2 || req.user.role === 3){
+        await addressById(req,res)
+      }else{
+        res.status(401).json('Insufficient permissions')
+      }
+    }else{
+      res.status(401).json('No user logged in')
+    }
+  })
+
+  // Orders
+
+  app.get('/api/user/:id/orders',authenticateToken, async (req, res) => {
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      await viewUserOrders (req,res)
+    }
   })
 
   app.get('/viewOrder/:id', authenticateToken, async (req, res) => {
-    await viewOrder(req,res);
+    const user = req.user
+    if (!user){
+      res.status(401).json('No user logged in')
+    }else{
+      await viewOrder(req,res);
+    }
+  })
+
+  app.get('/orderdetails/:id', authenticateToken, async (req,res) => {
+    await details(req,res)
   })
 
   app.listen(PORT, () => console.log(`listening on port ${PORT}`))

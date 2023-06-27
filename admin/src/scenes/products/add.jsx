@@ -13,8 +13,11 @@ export default function AddProduct(){
   
   useEffect(() => {
     document.title = 'Add product'
+  })
+
+  useEffect(() => {
     getBrands()
-  }, [])
+  }, [brand])
 
   const getBrands = async () => {
     try {
@@ -58,14 +61,14 @@ export default function AddProduct(){
     return () => {
       document.getElementById('descriptionInput').removeEventListener('input', handleInputChange);
     };
-  }, []);
+  });
 
   const handleInputChange = () => {
     setDescription(document.getElementById('descriptionInput').value);
   };
 
 
-  const handleSubmit = async () => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try{
       if (brand === '') {

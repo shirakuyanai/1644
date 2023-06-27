@@ -1,28 +1,45 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
-    const handleLogout = async () => {
-        
-        try {
-            const response = await fetch ('http://localhost:5000/logout', {
-                method: 'POST',
-                headers:{
-                    'Content-type': 'application/json'
-                },
-                credentials: 'include',
-            })
-            if (response.ok){
-                localStorage.removeItem('token');
-                window.location.replace('/login')
-            }
-            else{
-                alert(await response.json())
-            }
-        } catch (err){
-            alert(err);
+    const [loggedIn, setLoggedIn] = useState({});
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        if (loading) {
+            checkLoginStatus();
         }
-    }
+        else{
+            if (Object.keys(loggedIn).length === 0 || loggedIn.role === 1){
+                window.location.replace('/logout')
+            }
+        }
+    });
+
+    const checkLoginStatus = async () => {
+        try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:5000/checkLoginStatus', {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            },
+            credentials: 'include',
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setLoggedIn(data);
+            console.log(loggedIn);
+            setLoading(false);
+        }
+        setLoading(false);
+        } catch (e) {
+        console.error(e);
+        setLoading(false);
+        }
+    };
+
+      
   return (
     <div className="wrapper">
         {/* <!-- Preloader --> */}
@@ -64,12 +81,12 @@ export default function Layout() {
             {/* <!-- Sidebar --> */}
             <div className="sidebar mt-3">
             {/* <!-- Sidebar user panel (optional) --> */}
-                <div className="user-panel pb-3 mb-3 d-flex">
+                <div className="user-panel d-flex">
                     <div className="image">
                         <img src="/assets/dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image"/>
                     </div>
                     <div className="info">
-                        <a href="#" className="d-block">User name</a>
+                        <a href="/profile" className="d-block">{loggedIn ? <p>{loggedIn.firstname} {loggedIn.lastname}</p> : ''}</a>
                     </div>
                 </div>
 
@@ -119,7 +136,7 @@ export default function Layout() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a onClick={handleLogout} className="nav-link">
+                            <a href="/logout" className="nav-link">
                                 <i className="fas fa-sign-out-alt mr-2"></i>
                                 <p>
                                     Logout

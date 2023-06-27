@@ -22,8 +22,10 @@ export default function FeaturedProducts({updateQuantity}){
             credentials: "include",
             }
         );
+        const data = await response.json();
+        alert(data.message)
         if (response.ok) {
-            const cart = await response.json();
+            const cart = data.cart
             let quantity = 0
             cart.forEach(element => {
               quantity += element.quantity

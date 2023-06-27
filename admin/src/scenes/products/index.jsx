@@ -5,7 +5,7 @@ export default function Products(){
   const [products, setProducts] = useState([])
   useEffect(() => {
       getProducts()
-  },[])
+  }, [products])
 
   const getProducts = async () => {
     try{
@@ -21,7 +21,7 @@ export default function Products(){
     }
   }
 
-  const deleteProduct = async (productId) => {
+  const deleteProduct = async (productId, e) => {
     e.preventDefault();
     try {
       const confirm = window.confirm('Are you sure you want to delete this product? This action cannot be undone.')
@@ -75,7 +75,16 @@ export default function Products(){
     <section className="content">
       <div className="card">
         <div className="card-header">
-          <h3 className="card-title">Brands</h3>
+          <h5 className="card-title">Products</h5>
+          <div className="card-tools">
+              <button type="button" className="btn btn-tool" data-card-widget="collapse">
+                  <i className="fas fa-minus"></i>
+              </button>
+              
+              <button type="button" className="btn btn-tool" data-card-widget="remove">
+                  <i className="fas fa-times"></i>
+              </button>
+          </div>
         </div>
         {/* <!-- /.card-header --> */}
         <div className="card-body">

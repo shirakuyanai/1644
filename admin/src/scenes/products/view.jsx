@@ -7,7 +7,7 @@ export default function ViewProduct(){
     useEffect(() => {
       getBrands()
       getProduct()
-    },[])
+    }, [brands, product])
     const getBrands = async () => {
       try {
           const token = localStorage.getItem('token')
@@ -29,8 +29,7 @@ export default function ViewProduct(){
       }
   }
 
-  const deleteProduct = async (productId) => {
-    e.preventDefault();
+  const deleteProduct = async productId => {
     try {
       const confirm = window.confirm('Are you sure you want to delete this product? This action cannot be undone.')
       if (confirm){

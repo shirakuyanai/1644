@@ -16,18 +16,28 @@ export default function EditProduct(){
   
   useEffect(() => {
     document.title = 'Edit product'
+  })
+
+
+  useEffect(() => {
+    if (Object.keys(product).length < 1){
+      getProduct()
+      if (product) 
+      {
+        setPrice(product.price)
+        setPrice(product.stock)
+      }
+      else{
+        setPrice('0')
+        setStock('0')
+      }
+    }
+  })
+
+
+  useEffect(() => {
     getBrands()
-    getProduct()
-    if (product) 
-    {
-      setPrice(product.price)
-      setPrice(product.stock)
-    }
-    else{
-      setPrice('0')
-      setStock('0')
-    }
-  }, [])
+  }, [brands])
 
   useEffect(() => {
     setDescription(product.description);
@@ -98,7 +108,7 @@ export default function EditProduct(){
     return () => {
       document.getElementById('descriptionInput').removeEventListener('input', handleInputChange);
     };
-  }, []);
+  });
 
   const handleInputChange = () => {
     setDescription(document.getElementById('descriptionInput').value);

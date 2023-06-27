@@ -7,19 +7,19 @@ const AddressSchema = new Schema({
         ref: 'User',
         required: true
     },
-    address_1:{ // Street/ ally/ house number
+    ward:{ // Street/ ally/ house number
         type: String,
         required: true
     },
-    address_2:{ // Prenict
+    province:{ // Province
         type: String,
         required: true
     },
-    address_3:{ // District
+    district:{ // District
         type: String,
         required: true
     },
-    address_4:{ // City
+    city:{ // City
         type: String,
         required: true
     },

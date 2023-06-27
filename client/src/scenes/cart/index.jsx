@@ -69,6 +69,8 @@ export default function Cart({ updateQuantity }) {
             quantity += element.quantity;
           });
           updateQuantity(quantity);
+        }else{
+          alert(await response.json())
         }
       } catch (error) {
         console.error('Error updating quantity:', error);
@@ -78,18 +80,21 @@ export default function Cart({ updateQuantity }) {
 
   const handleDeleteProduct = async itemId => {
     try {
-      const response = await fetch(`/api/cart/product/${itemId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        let quantity = 0;
-        data.forEach(element => {
-          quantity += element.quantity;
+      const confirm = window.confirm('Are you sure you want to delete this product from your cart?');
+      if (confirm){
+        const response = await fetch(`http://localhost:5000/api/cart/product/${itemId}`, {
+          method: 'DELETE',
+          credentials: 'include',
         });
-        setCartData(data);
-        updateQuantity(quantity);
+        if (response.ok) {
+          const data = await response.json();
+          let quantity = 0;
+          data.forEach(element => {
+            quantity += element.quantity;
+          });
+          setCartData(data);
+          updateQuantity(quantity);
+        }
       }
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -179,8 +184,8 @@ export default function Cart({ updateQuantity }) {
                           <div>
                             <a
                               href="#"
-                              onClick={() => {
-                                handleDeleteProduct(item.product._id);
+                              onClick={(event) => {
+                                event.preventDefault(); handleDeleteProduct(item.product._id);
                               }}
                               className="text-secondary-emphasis fw-light fs-6"
                             >

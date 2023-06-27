@@ -93,11 +93,14 @@ const compareHash = (password_1, password_2) => {
         const user = users[i];
         const correctPassword = await compareHash(req.body.password, user.password);
         if (user.email === req.body.email && correctPassword) {
-
-            const token = generateToken(user);
+            if (!user.status){
+                res.status(400).json('Your account has been suspended. Please contact the administrator for more information.');
+            } else{
+                const token = generateToken(user);
+                res.json({ user, token });
+            }
             correctCredentials = true;
-            res.json({ user, token });
-          }
+        }
       }
       if (!correctCredentials) {
         return res.status(401).json('Invalid username or password');
@@ -141,26 +144,34 @@ const Register = async (req, res) => {
     }
     else
     {
-        const users = await User.findOne({ email: req.body.email });
+        let user = await User.findOne({ email: req.body.email });
 
-        if (users)
+        if (user)
         {
             res.status(400).json('Email taken.');
+        }else{
+            user = await User.findOne({ phone: req.body.phone });
+            if (user)
+            {
+                res.status(400).json('Phone taken.');
+            }
+    
+            else
+            {
+                user = new User({
+                    email: req.body.email,
+                    password: await hashPassword(req.body.password1),
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
+                    phone: req.body.phone,
+                })
+                user.save()
+                sendEmail(user.email, user)
+                res.json('Registered successfully!')
+            }
         }
-        else
-        {
-            const user = new User({
-                email: req.body.email,
-                password: await hashPassword(req.body.password1),
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                phone: req.body.phone,
-            })
-            user.save()
-            console.log(user)
-            const send_email_response = sendEmail(user.email, user)
-            res.json(send_email_response)
-        }
+
+        
     }
 }
 

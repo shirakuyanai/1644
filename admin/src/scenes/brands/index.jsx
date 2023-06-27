@@ -29,7 +29,7 @@ export default function Brands(){
       }
   }
 
-  const deleteBrand = async (brandId) => {
+  const deleteBrand = async (brandId, e) => {
     e.preventDefault();
     try {
       const confirm = window.confirm('Are you sure you want to delete this brand? This is a destructive action and it cannot be undone.')
@@ -82,7 +82,16 @@ export default function Brands(){
     <section className="content">
       <div className="card">
         <div className="card-header">
-          <h3 className="card-title">Brands</h3>
+          <h5 className="card-title">Brands</h5>
+          <div className="card-tools">
+              <button type="button" className="btn btn-tool" data-card-widget="collapse">
+                  <i className="fas fa-minus"></i>
+              </button>
+              
+              <button type="button" className="btn btn-tool" data-card-widget="remove">
+                  <i className="fas fa-times"></i>
+              </button>
+          </div>
         </div>
         {/* <!-- /.card-header --> */}
         <div className="card-body">

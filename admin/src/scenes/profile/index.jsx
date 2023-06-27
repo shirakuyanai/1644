@@ -17,9 +17,6 @@ export default function Profile() {
   useEffect(() => {
     if (Object.keys(loggedIn).length === 0) {
       checkLoginStatus();
-    } else {
-      orders();
-      fetchProductData();
     }
   }, [loggedIn]);
 
@@ -44,25 +41,6 @@ export default function Profile() {
     } catch (e) {
       console.error(e);
       setLoading(false);
-    }
-  };
-  const orders = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/user/${loggedIn._id}/orders`,{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token
-        },
-        credentials: 'include'
-      });
-      if (response.ok) {
-        const ordersData = await response.json();
-        setOrderUser(ordersData);
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -140,42 +118,7 @@ export default function Profile() {
       console.error(e);
     }
   };
-  const [productData, setProductData] = useState([]);
-  const fetchProductData = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/products', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setProductData(data);
-      } else {
-        console.error('Failed to fetch product data');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const getProductName = productId => {
-    const product = productData.find(product => product._id === productId);
-    return product ? product.name : '';
-  };
-  const getProductImage = productId => {
-    const product = productData.find(product => product._id === productId);
-    return product ? product.image : '';
-  };
-  if (orderUser & orderUser.length > 0){
-    orderUser.forEach(order => {
-      order.products.forEach(product => {
-        const productName = getProductImage(product.productId);
-        console.log(productName);
-      });
-    });
-  }
+  
   useEffect(() => {
     changeTitle('Profile');
   });
@@ -188,10 +131,10 @@ export default function Profile() {
     );
   } else {
     return (
-      <section className="" style={{ backgroundColor: '#f4f5f7' }}>
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col col-lg- mb-4 mb-lg-0">
+      <section>
+        <div className="container py-5 h-100 p-lg-5">
+          <div className="row d-flex justify-content-center align-items-center h-100 p-lg-5">
+            <div className="col col-lg- mb-4 mb-lg-0 p-lg-5">
               <div className="card mb-3" style={{ borderRadius: 0.5 + 'rem' }}>
                 <div className="row g-0">
                   <div
@@ -228,28 +171,29 @@ export default function Profile() {
                       </div>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-center">
+                </div>
+                <div className="d-flex justify-content-center">
                     <button
                       type="button"
                       className="btn btn-primary m-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#changeName"
+                      data-toggle="modal"
+                      data-target="#changeName"
                     >
                       Change Name
                     </button>
                     <button
                       type="button"
                       className="btn btn-warning m-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#changeEmail"
+                      data-toggle="modal"
+                      data-target="#changeEmail"
                     >
                       Change Email
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger m-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#changePassword"
+                      data-toggle="modal"
+                      data-target="#changePassword"
                     >
                       Change Password
                     </button>
@@ -273,7 +217,7 @@ export default function Profile() {
                           <button
                             type="button"
                             className="btn-close"
-                            data-bs-dismiss="modal"
+                            data-dismiss="modal"
                             aria-label="Close"
                           ></button>
                         </div>
@@ -306,7 +250,7 @@ export default function Profile() {
                             <button
                               type="button"
                               className="btn btn-danger"
-                              data-bs-dismiss="modal"
+                              data-dismiss="modal"
                             >
                               Close
                             </button>
@@ -334,7 +278,7 @@ export default function Profile() {
                           <button
                             type="button"
                             className="btn-close"
-                            data-bs-dismiss="modal"
+                            data-dismiss="modal"
                             aria-label="Close"
                           ></button>
                         </div>
@@ -378,7 +322,7 @@ export default function Profile() {
                             <button
                               type="button"
                               className="btn btn-danger"
-                              data-bs-dismiss="modal"
+                              data-dismiss="modal"
                             >
                               Close
                             </button>
@@ -406,7 +350,7 @@ export default function Profile() {
                           <button
                             type="button"
                             className="btn-close"
-                            data-bs-dismiss="modal"
+                            data-dismiss="modal"
                             aria-label="Close"
                           ></button>
                         </div>
@@ -458,7 +402,7 @@ export default function Profile() {
                             <button
                               type="button"
                               className="btn btn-danger"
-                              data-bs-dismiss="modal"
+                              data-dismiss="modal"
                             >
                               Close
                             </button>
@@ -467,25 +411,6 @@ export default function Profile() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="card-body p-4">
-                  <h4>Order Information</h4>
-                  {orderUser && orderUser.length > 0 ? orderUser.map(order => (
-                    <div key={order._id}>
-                      <hr className="mt-0 mb-4 border" />
-                      <a href={`/viewOrder/${order._id}`}>
-                        <div className="row pt-1 border rounded">
-                          <h2>Status</h2>
-                          <div className="d-flex justify-content-between">
-                            <p className="text-muted">{order.status === 1 ? 'Pending' : order.status === 2 ? 'Processing' : order.status === 3 ? 'Shipped' : order.status === 4 ? 'Delivered' : order.status === 0 ? 'Canceled' : null}</p>
-                            <h1>TOTAL: {order.total}</h1>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  ))
-                  : null}
-                </div>
               </div>
             </div>
           </div>
