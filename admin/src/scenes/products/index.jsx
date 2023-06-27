@@ -9,7 +9,7 @@ export default function Products(){
 
   const getProducts = async () => {
     try{
-      const response = await fetch('https://atn-toy-server.onrender.com/products', {
+      const response = await fetch('http://localhost:5000/products', {
         method: 'GET',
         credentials: 'include'
       })
@@ -27,7 +27,7 @@ export default function Products(){
       const confirm = window.confirm('Are you sure you want to delete this product? This action cannot be undone.')
       if (confirm){
         const token = localStorage.getItem('token')
-        const res = await fetch(`https://atn-toy-server.onrender.com/products/delete/${productId}`, {
+        const res = await fetch(`http://localhost:5000/products/delete/${productId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

@@ -16,12 +16,16 @@ export default function Login() {
     if (Object.keys(loggedIn).length > 0) {
       window.location.replace('/index');
     }
+
+    if (!loggedIn){
+      window.location.replace('/index');
+    }
   });
 
   const checkLoginStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
+      const response = await fetch('http://localhost:5000/checkLoginStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +54,7 @@ export default function Login() {
     event.preventDefault();
     try {
       if (email !== '' && password !== '') {
-        const response = await fetch('https://atn-toy-server.onrender.com/login', {
+        const response = await fetch('http://localhost:5000/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

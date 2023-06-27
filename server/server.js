@@ -25,9 +25,7 @@ const storage = getStorage(initializeApp(firebaseConfig));
 // Multer configuration for file upload
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // Maximum file size in bytes (e.g., 5MB)
-  },
+  limits: { fieldSize: 100000 * 1024 * 1024 }
 });
 
 const { Login, Register, verifyUser, changePassword, checkLoginStatus, authenticateToken, editUserEmail, checkVerifyStatus, resendVerificationEmail } = require('./operations/auth')

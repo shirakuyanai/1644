@@ -76,15 +76,24 @@
 # {
 #   "firstname": "John",
 #   "lastname": "Doe",
-#   "email": "bodefeb695@rockdian.com",
-#   "password": "Bandicam_123123"
+#   "email": "shirakuyanai@gmail.com",
+#   "password": "Bandicam_123321"
 # }
+
+POST http://localhost:5000/changePassword
+Content-Type: application/json
+
+{
+  "old_password": "Bandicam_123123",
+  "new_password": "Bandicam_123321",
+  "new_password2": "Bandicam_123321"
+}
 
 # POST http://localhost:5000/login
 # Content-Type: application/json
 
 # {
-#   "email": "bodefeb695@rockdian.com",
+#   "email": "shirakuyanai@gmail.com",
 #   "password": "Bandicam_123123"
 # }
 

@@ -22,7 +22,7 @@ export default function AddProduct(){
   const getBrands = async () => {
     try {
         const token = localStorage.getItem('token')
-        const response = await fetch('https://atn-toy-server.onrender.com/brands', {
+        const response = await fetch('http://localhost:5000/brands', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export default function AddProduct(){
       formData.append('image', image);
       formData.append('description', description);
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://atn-toy-server.onrender.com/newproduct`, {
+      const response = await fetch(`http://localhost:5000/newproduct`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -101,8 +101,8 @@ export default function AddProduct(){
         credentials: 'include',
         body: formData
       });
+      alert(await response.json())
       if (response.ok){
-        alert(await response.json())
         window.location.replace('/products')
       }
     } catch(err){

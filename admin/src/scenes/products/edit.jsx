@@ -50,7 +50,7 @@ export default function EditProduct(){
   const getBrands = async () => {
     try {
         const token = localStorage.getItem('token')
-        const response = await fetch('https://atn-toy-server.onrender.com/brands', {
+        const response = await fetch('http://localhost:5000/brands', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export default function EditProduct(){
   }
   const getProduct = async () => {
     try{
-      const response = await fetch(`https://atn-toy-server.onrender.com/api/product/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/product/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export default function EditProduct(){
       formData.append('image', image);
       formData.append('description', description);
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://atn-toy-server.onrender.com/products/edit/${id}`, {
+      const response = await fetch(`http://localhost:5000/products/edit/${id}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,

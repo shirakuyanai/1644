@@ -24,7 +24,7 @@ export default function ViewUser(){
   const changeOrderStatus = async (id, status) => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`https://atn-toy-server.onrender.com/changeOrderStatus/${id}`, {
+      const response = await fetch(`http://localhost:5000/changeOrderStatus/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export default function ViewUser(){
   const getAddresses = async () => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`https://atn-toy-server.onrender.com/addresses/${id}`, {
+      const response = await fetch(`http://localhost:5000/addresses/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export default function ViewUser(){
   const getOrders = async () => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`https://atn-toy-server.onrender.com/api/user/${id}/orders`, {
+      const response = await fetch(`http://localhost:5000/api/user/${id}/orders`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export default function ViewUser(){
   const getUser = async () => {
     try{
       const token = localStorage.getItem('token')
-      const res = await fetch(`https://atn-toy-server.onrender.com/api/user/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/user/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export default function ViewUser(){
       if (confirm)
       {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://atn-toy-server.onrender.com/changeUserStatus/${id}`, {
+        const response = await fetch(`http://localhost:5000/changeUserStatus/${id}`, {
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export default function ViewUser(){
       if (confirm)
       {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://atn-toy-server.onrender.com/changeRole/${id}`, {
+        const response = await fetch(`http://localhost:5000/changeRole/${id}`, {
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',

@@ -11,6 +11,34 @@ export default function Accounts(){
       getUsers()
     }
   })
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, [loggedIn]);
+
+  const checkLoginStatus = async () => {
+      try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/checkLoginStatus', {
+          method: 'GET',
+          headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          },
+          credentials: 'include',
+      });
+      if (response.ok) {
+          const data = await response.json();
+          setLoggedIn(data);
+          console.log(loggedIn);
+          setLoading(false);
+      }
+      setLoading(false);
+      } catch (e) {
+      console.error(e);
+      setLoading(false);
+      }
+  };
   
   const changeUserStatus = async id => {
     try{
@@ -18,7 +46,7 @@ export default function Accounts(){
       if (confirm)
       {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://atn-toy-server.onrender.com/changeUserStatus/${id}`, {
+        const response = await fetch(`http://localhost:5000/changeUserStatus/${id}`, {
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',
@@ -46,7 +74,7 @@ export default function Accounts(){
   const getUsers = async () => {
     try{
       const token = localStorage.getItem('token')
-      const res = await fetch("https://atn-toy-server.onrender.com/viewuser", {
+      const res = await fetch("http://localhost:5000/viewuser", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

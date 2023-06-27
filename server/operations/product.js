@@ -41,41 +41,43 @@ const oneProduct = async (req, res) => {
 
 const newProduct = async (req, res) => {
   try {
-    // Validate request body
-    await Promise.all(ProductValidation.map((validation) => validation.run(req)));
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(401).json({ errors: errors.array() });
+    if (!req.body.name || req.body.name === ''){
+      res.status(400).json('Product name is required');
     }
-    const product = new Product({
-      name: req.body.name,
-      brand: req.body.brand,
-      price: req.body.price,
-      description: req.body.description,
-      stock: req.body.stock,
-      image: req.body.image,
-    });
-
-    try {
-      const savedProduct = await product.save();
-
-      if (req.file) {
-        const storageRef = ref(storage, req.file.originalname);
-        await uploadBytes(storageRef, req.file.buffer);
-        const downloadURL = await getDownloadURL(storageRef);
-        savedProduct.image = downloadURL; // Store the image URL in the saved product
-        await savedProduct.save();
-      }
-
-      res.json('Product added successfully!');
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
+    else if (!req.body.brand || req.body.brand === ''){
+      res.status(400).json('Product brand is required');
+    }
+    else if (!req.body.price){
+      res.status(400).json('Product price is required');
+    }
+    else if (!req.body.description || req.body.description === ''){
+      res.status(400).json('Product description is required');
+    }
+    else if (req.body.stock === undefined){
+      res.status(400).json('Product stock is required');
+    }
+    else{
+        if (req.file){
+          const storageRef = ref(storage, req.file.originalname);
+          await uploadBytes(storageRef, req.file.buffer);
+          const downloadURL = await getDownloadURL(storageRef);
+          const product = new Product({
+            name: req.body.name,
+            brand: req.body.brand,
+            price: req.body.price,
+            description: req.body.description,
+            stock: req.body.stock,
+            image: downloadURL,
+          });
+          await product.save();
+          res.json('Product added successfully!');
+        } else{
+          res.status(400).json('No image uploaded!');
+        }
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json('Internal server error');
   }
 };
 
@@ -90,7 +92,6 @@ const editProduct = async (req, res) => {
     }
     
     if (req.file) {
-      
       try{
         // Deleting the old upload before uploading a new one
         const storageRef = ref(storage, prod.image);

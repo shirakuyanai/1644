@@ -291,10 +291,10 @@ const verifyUser = async (req,res) => {
                 res.json('Something went wrong. Please try again later.')
             }
         }
-      } catch (error) {
+    } catch (error) {
         // Token verification failed
         res.json('Token verification failed:' + error.message);
-      }
+    }
 }
 
 const checkVerifyStatus = async (req, res) => {

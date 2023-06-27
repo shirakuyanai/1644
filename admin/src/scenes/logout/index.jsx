@@ -4,7 +4,7 @@ const Logout = () => {
   useEffect(() => {
     const logout = async () => {
       try {
-        const response = await fetch('https://atn-toy-server.onrender.com/logout', {
+        const response = await fetch('http://localhost:5000/logout', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',

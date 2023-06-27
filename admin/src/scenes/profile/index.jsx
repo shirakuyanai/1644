@@ -23,7 +23,7 @@ export default function Profile() {
   const checkLoginStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
+      const response = await fetch('http://localhost:5000/checkLoginStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export default function Profile() {
   const handleChangePassword = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://atn-toy-server.onrender.com/changePassword', {
+      const response = await fetch('http://localhost:5000/changePassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export default function Profile() {
   const handleChangeName = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://atn-toy-server.onrender.com/changeName', {
+      const response = await fetch('http://localhost:5000/changeName', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export default function Profile() {
   const handleChangeEmail = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://atn-toy-server.onrender.com/changeEmail', {
+      const response = await fetch('http://localhost:5000/changeEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
