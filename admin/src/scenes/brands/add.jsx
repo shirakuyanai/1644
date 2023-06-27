@@ -10,7 +10,7 @@ export default function AddBrand(){
     e.preventDefault();
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:5000/newbrand', {
+      const response = await fetch('https://atn-toy-server.onrender.com/newbrand', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

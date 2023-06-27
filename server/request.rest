@@ -1,6 +1,6 @@
-GET http://localhost:5000/brands
+GET https://atn-toy-server.onrender.com/brands
 
-# POST http://localhost:5000/newbrand
+# POST https://atn-toy-server.onrender.com/newbrand
 # Content-Type: application/json
 
 # {

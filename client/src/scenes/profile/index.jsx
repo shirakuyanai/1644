@@ -26,7 +26,7 @@ export default function Profile() {
   const checkLoginStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/checkLoginStatus', {
+      const response = await fetch('https://atn-toy-server.onrender.com/checkLoginStatus', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export default function Profile() {
   const orders = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/user/${loggedIn._id}/orders`,{
+      const response = await fetch(`https://atn-toy-server.onrender.com/api/user/${loggedIn._id}/orders`,{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export default function Profile() {
   const handleChangePassword = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/changePassword', {
+      const response = await fetch('https://atn-toy-server.onrender.com/changePassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function Profile() {
   const handleChangeName = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/changeName', {
+      const response = await fetch('https://atn-toy-server.onrender.com/changeName', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export default function Profile() {
   const handleChangeEmail = async event => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/changeEmail', {
+      const response = await fetch('https://atn-toy-server.onrender.com/changeEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ export default function Profile() {
   const [productData, setProductData] = useState([]);
   const fetchProductData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/products', {
+      const res = await fetch('https://atn-toy-server.onrender.com/products', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

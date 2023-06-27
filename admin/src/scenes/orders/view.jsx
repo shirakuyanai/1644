@@ -31,7 +31,7 @@ export default function ViewOrder(){
 
   const getProducts = async () => {
     try{
-      const response = await fetch('http://localhost:5000/products', {
+      const response = await fetch('https://atn-toy-server.onrender.com/products', {
         method: 'GET',
         credentials: 'include'
       })
@@ -45,7 +45,7 @@ export default function ViewOrder(){
 
   const getOrder = async () => {
     try{
-      const response = await fetch(`http://localhost:5000/viewOrder/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/viewOrder/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function ViewOrder(){
   const getAddress = async addressId => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/addressById/${addressId}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/addressById/${addressId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ export default function ViewOrder(){
   const getUser = async userId => {
     try{
       const token = localStorage.getItem('token')
-      const res = await fetch(`http://localhost:5000/api/user/${userId}`, {
+      const res = await fetch(`https://atn-toy-server.onrender.com/api/user/${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default function ViewOrder(){
   const changeOrderStatus = async (id, status) => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/changeOrderStatus/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/changeOrderStatus/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export default function ViewOrder(){
   
   const getDetails = async () => {
     try{
-      const response = await fetch(`http://localhost:5000/orderdetails/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/orderdetails/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

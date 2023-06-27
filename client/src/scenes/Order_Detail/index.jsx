@@ -24,7 +24,7 @@ const Order_Detail = () => {
   }, [order])
 
   const productById = async (id) => {
-    const response = await fetch(`http://localhost:5000/api/product/${id}`, {
+    const response = await fetch(`https://atn-toy-server.onrender.com/api/product/${id}`, {
       method: 'GET',
       credentials: 'include',
     })
@@ -42,7 +42,7 @@ const Order_Detail = () => {
   const getOrder = async () =>{
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/viewOrder/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/viewOrder/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

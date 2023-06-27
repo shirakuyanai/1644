@@ -18,7 +18,7 @@ export default function Accounts(){
       if (confirm)
       {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:5000/changeUserStatus/${id}`, {
+        const response = await fetch(`https://atn-toy-server.onrender.com/changeUserStatus/${id}`, {
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export default function Accounts(){
   const getUsers = async () => {
     try{
       const token = localStorage.getItem('token')
-      const res = await fetch("http://localhost:5000/viewuser", {
+      const res = await fetch("https://atn-toy-server.onrender.com/viewuser", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

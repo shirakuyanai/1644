@@ -11,7 +11,7 @@ export default function Brands(){
   const getBrands = async () => {
       try {
           const token = localStorage.getItem('token')
-          const response = await fetch('http://localhost:5000/brands', {
+          const response = await fetch('https://atn-toy-server.onrender.com/brands', {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export default function Brands(){
     try {
       const confirm = window.confirm('Are you sure you want to delete this brand? This is a destructive action and it cannot be undone.')
       if (confirm){
-        const res = await fetch(`http://localhost:5000/brands/delete/${brandId}`, {
+        const res = await fetch(`https://atn-toy-server.onrender.com/brands/delete/${brandId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

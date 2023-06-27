@@ -30,7 +30,7 @@ export default function BestSeller({updateQuantity}){
     const handleCartClick = async (productId) => {
         try {
         const response = await fetch(
-            `http://localhost:5000/addToCart/${productId}`, // Replace `productId` with the actual product ID
+            `https://atn-toy-server.onrender.com/addToCart/${productId}`, // Replace `productId` with the actual product ID
             {
             method: "POST",
             headers: {
@@ -61,14 +61,14 @@ export default function BestSeller({updateQuantity}){
     },[])
 
     const getProducts = async () => {
-        const response = await fetch('http://localhost:5000/products')
+        const response = await fetch('https://atn-toy-server.onrender.com/products')
         if (response.ok){
             setProducts(await response.json())
         }
     }
 
     const getBrands = async () => {
-        const response = await fetch('http://localhost:5000/brands')
+        const response = await fetch('https://atn-toy-server.onrender.com/brands')
         if (response.ok){
             setBrands(await response.json())
         }
