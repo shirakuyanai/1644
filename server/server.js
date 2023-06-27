@@ -49,7 +49,7 @@ app.use(cors({
   credentials: true,
 }));
 
-app.set("trust proxy", 1);
+app.enable('trust proxy')
 
 connectToDatabase().then(() => {
   
