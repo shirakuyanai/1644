@@ -147,7 +147,7 @@ export default function Orders(){
                 <tr key={index}>
                   <td className="text-center"><a href={`/order/${order._id}`}>{index + 1}</a></td>
                   <td className="text-center d-none d-lg-table-cell">{order._id}</td>
-                  <td className="text-center"><a href={`/account/${order.user}`}>{users.map((user, index) => (user._id === order.user ? user.email : ''))}</a></td>
+                  <td className="text-center"><a href={`/account/${order.user}`}>{users && users.length > 0 ? (users.map((user, index) => (user._id === order.user ? user.email : ''))) : ''}</a></td>
                   <td className="text-center text-center d-none d-lg-table-cell">{order.createdAt}</td>
                   <td className="text-center">{order.updatedAt === order.createdAt ? '' : order.updatedAt}</td>
                   <td className="text-center">${order.total}</td>

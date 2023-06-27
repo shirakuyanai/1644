@@ -2,16 +2,15 @@ import React, {useState, useEffect} from 'react';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
-    const [loggedIn, setLoggedIn] = useState({});
+    const [loggedIn, setLoggedIn] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        if (loading) {
+        if (!loggedIn) {
             checkLoginStatus();
-            setLoading(false)
         }
-        else{
-            if (Object.keys(loggedIn).length === 0 || loggedIn.role === 1){
-                window.location.replace('/logout')
+        else {
+            if (loggedIn.role === 1){
+                window.location.replace('/logout')  
             }
         }
     });
