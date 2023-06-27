@@ -13,7 +13,7 @@ export default function EditBrand(){
   const getBrand = async id => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/api/brand/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/api/brand/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export default function EditBrand(){
     e.preventDefault();
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/brands/edit/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/brands/edit/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

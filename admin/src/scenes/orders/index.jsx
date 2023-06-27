@@ -17,7 +17,7 @@ export default function Orders(){
   const changeOrderStatus = async (id, status) => {
     try{
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/changeOrderStatus/${id}`, {
+      const response = await fetch(`https://atn-toy-server.onrender.com/changeOrderStatus/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default function Orders(){
   const getUsers = async () => {
     try{
       const token = localStorage.getItem('token')
-      const res = await fetch("http://localhost:5000/viewuser", {
+      const res = await fetch("https://atn-toy-server.onrender.com/viewuser", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function Orders(){
   const getOrders = async () => {
     try{
       const token = localStorage.getItem('token')
-      const res = await fetch("http://localhost:5000/orders", {
+      const res = await fetch("https://atn-toy-server.onrender.com/orders", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
